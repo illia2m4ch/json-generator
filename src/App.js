@@ -2,7 +2,9 @@ import './App.css'
 import React from 'react'
 import Editor from '@monaco-editor/react'
 import * as JsonGenTokensProvider from '../src/language/parser/JsonGenTokensProvider.ts'
+import {JsonGenArray, JsonGenNumber, JsonGenPlaceholder} from "./language/model/JsonGenNode.ts"
 import {parseTree, parseTreeStr} from "./language/parser/JsonGenParser.ts";
+import {JsonGenVisitor} from "./language/parser/JsonGenVisitor.ts";
 
 function initMonaco(monaco) {
   monaco.languages.register({ id: 'jsonGen' })
@@ -47,8 +49,13 @@ function initMonaco(monaco) {
   })
 }
 
-function onEditorChange(value, event) {
+let visitor = new JsonGenVisitor()
 
+function onEditorChange(value, event) {
+  try {
+    console.log(visitor.visitJsongen(parseTree(value)))
+  } catch (e) {
+  }
 }
 
 function App() {
