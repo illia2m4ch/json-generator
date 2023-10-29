@@ -18,6 +18,7 @@ function initMonaco(monaco) {
       ['<', '>'],
       ['(', ')']
     ],
+    'colorizedBracketPairs': [],
     'autoClosingPairs': [
       { 'open': '{', 'close': '}', 'notIn': ['STRING'] },
       { 'open': '[', 'close': ']', 'notIn': ['STRING'] },
@@ -95,7 +96,7 @@ function App() {
             "name": <name(lang = en), null, {}, 0..100> (optional),
             "age": <"Illia", 0..100, null> (optional),
             "arr": [ <1, 2, 3> ] (size = 2..5)
-        } (optional, nullable)
+        }
     ] (size = 2..5)
 }`
       }
