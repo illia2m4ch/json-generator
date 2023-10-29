@@ -4,17 +4,41 @@ import {defineDefaultDataSets} from "./DefaultJsonGenValues.ts";
 export class JsonGenContext {
 
     private dataSets = new Map<string, JsonGenDataSet>()
+    private values = new Map<string, any>()
 
     constructor() {
         defineDefaultDataSets(this)
     }
 
-    define(identificator: string, dataSet: JsonGenDataSet) {
-        this.dataSets.set(identificator, dataSet)
+    define(identificator: string, value: any) {
+        if (value instanceof JsonGenDataSet) {
+            this.dataSets.set(identificator, value)
+        }
+        this.values.set(identificator, value)
     }
 
-    dataSet(identificator: string): JsonGenDataSet {
-        return this.dataSets.get(identificator)
+    get(identificator: string, args?: Map<string, any>): any[] {
+
+        if (this.dataSets.has(identificator)) {
+            return this.dataSets.get(identificator).values(args)
+        }
+
+        if (this.values.has(identificator)) {
+            return [this.values.get(identificator)]
+        }
+
+        return []
+    }
+
+    value(identificator: string): any {
+        return this.values.get(identificator)
+    }
+
+    copy() {
+        let copy = new JsonGenContext()
+        copy.dataSets = this.dataSets
+        copy.values = this.values
+        return copy
     }
 
 }

@@ -12,7 +12,7 @@ export abstract class JsonGenDataSet {
 
 export class EnumJsonGenDataSet extends JsonGenDataSet {
 
-    values(args?: Map<string, any>): any[] {
+    values(): any[] {
         if (this.json instanceof Array) {
             return this.json
         }
