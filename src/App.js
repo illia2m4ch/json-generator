@@ -5,6 +5,7 @@ import * as JsonGenTokensProvider from '../src/language/parser/JsonGenTokensProv
 import {JsonGenArray, JsonGenNumber, JsonGenPlaceholder} from "./language/model/JsonGenNode.ts"
 import {parseTree, parseTreeStr} from "./language/parser/JsonGenParser.ts";
 import {JsonGenVisitor} from "./language/parser/JsonGenVisitor.ts";
+import {JsonGenContext} from "./language/data/JsonGenContext.ts";
 
 function initMonaco(monaco) {
   monaco.languages.register({ id: 'jsonGen' })
@@ -53,8 +54,11 @@ let visitor = new JsonGenVisitor()
 
 function onEditorChange(value, event) {
   try {
-    console.log(visitor.visitJsongen(parseTree(value)))
+    let context = new JsonGenContext()
+    let json = JSON.stringify(visitor.visitJsongen(parseTree(value)).json(context),null,2)
+    console.log(json)
   } catch (e) {
+    console.error(e)
   }
 }
 

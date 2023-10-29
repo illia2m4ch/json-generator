@@ -22,21 +22,21 @@ export default class JsonGenParser extends Parser {
 	public static readonly RANGE_VALUE = 1;
 	public static readonly STRING = 2;
 	public static readonly NUMBER = 3;
-	public static readonly IDENTIFIER = 4;
-	public static readonly ASSIGNMENT = 5;
-	public static readonly COMMA = 6;
-	public static readonly COLON = 7;
-	public static readonly LPAREN = 8;
-	public static readonly RPAREN = 9;
-	public static readonly LSQUARE = 10;
-	public static readonly RSQUARE = 11;
-	public static readonly LCURL = 12;
-	public static readonly RCURL = 13;
-	public static readonly LPLACEHOLDER = 14;
-	public static readonly RPLACEHOLDER = 15;
-	public static readonly NULL = 16;
-	public static readonly TRUE = 17;
-	public static readonly FALSE = 18;
+	public static readonly NULL = 4;
+	public static readonly TRUE = 5;
+	public static readonly FALSE = 6;
+	public static readonly IDENTIFIER = 7;
+	public static readonly ASSIGNMENT = 8;
+	public static readonly COMMA = 9;
+	public static readonly COLON = 10;
+	public static readonly LPAREN = 11;
+	public static readonly RPAREN = 12;
+	public static readonly LSQUARE = 13;
+	public static readonly RSQUARE = 14;
+	public static readonly LCURL = 15;
+	public static readonly RCURL = 16;
+	public static readonly LPLACEHOLDER = 17;
+	public static readonly RPLACEHOLDER = 18;
 	public static readonly WS = 19;
 	public static readonly EOF = Token.EOF;
 	public static readonly RULE_jsongen = 0;
@@ -52,17 +52,18 @@ export default class JsonGenParser extends Parser {
 	public static readonly RULE_parameterValue = 10;
 	public static readonly literalNames: (string | null)[] = [ null, null, 
                                                             null, null, 
-                                                            null, "'='", 
-                                                            "','", "':'", 
-                                                            "'('", "')'", 
-                                                            "'['", "']'", 
-                                                            "'{'", "'}'", 
-                                                            "'<'", "'>'", 
                                                             "'null'", "'true'", 
-                                                            "'false'" ];
+                                                            "'false'", null, 
+                                                            "'='", "','", 
+                                                            "':'", "'('", 
+                                                            "')'", "'['", 
+                                                            "']'", "'{'", 
+                                                            "'}'", "'<'", 
+                                                            "'>'" ];
 	public static readonly symbolicNames: (string | null)[] = [ null, "RANGE_VALUE", 
                                                              "STRING", "NUMBER", 
-                                                             "IDENTIFIER", 
+                                                             "NULL", "TRUE", 
+                                                             "FALSE", "IDENTIFIER", 
                                                              "ASSIGNMENT", 
                                                              "COMMA", "COLON", 
                                                              "LPAREN", "RPAREN", 
@@ -71,8 +72,7 @@ export default class JsonGenParser extends Parser {
                                                              "LCURL", "RCURL", 
                                                              "LPLACEHOLDER", 
                                                              "RPLACEHOLDER", 
-                                                             "NULL", "TRUE", 
-                                                             "FALSE", "WS" ];
+                                                             "WS" ];
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
 		"jsongen", "simpleValue", "obj", "pair", "arr", "placeholder", "placeholderValue", 
@@ -141,42 +141,42 @@ export default class JsonGenParser extends Parser {
 				this.match(JsonGenParser.NUMBER);
 				}
 				break;
-			case 12:
+			case 15:
 				this.enterOuterAlt(localctx, 3);
 				{
 				this.state = 27;
 				this.obj();
 				}
 				break;
-			case 10:
+			case 13:
 				this.enterOuterAlt(localctx, 4);
 				{
 				this.state = 28;
 				this.arr();
 				}
 				break;
-			case 17:
+			case 5:
 				this.enterOuterAlt(localctx, 5);
 				{
 				this.state = 29;
 				this.match(JsonGenParser.TRUE);
 				}
 				break;
-			case 18:
+			case 6:
 				this.enterOuterAlt(localctx, 6);
 				{
 				this.state = 30;
 				this.match(JsonGenParser.FALSE);
 				}
 				break;
-			case 16:
+			case 4:
 				this.enterOuterAlt(localctx, 7);
 				{
 				this.state = 31;
 				this.match(JsonGenParser.NULL);
 				}
 				break;
-			case 14:
+			case 17:
 				this.enterOuterAlt(localctx, 8);
 				{
 				this.state = 32;
@@ -220,7 +220,7 @@ export default class JsonGenParser extends Parser {
 				this.state = 41;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				while (_la===6) {
+				while (_la===9) {
 					{
 					{
 					this.state = 37;
@@ -310,7 +310,7 @@ export default class JsonGenParser extends Parser {
 				this.state = 60;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				while (_la===6) {
+				while (_la===9) {
 					{
 					{
 					this.state = 56;
@@ -367,7 +367,7 @@ export default class JsonGenParser extends Parser {
 			this.state = 75;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===6) {
+			while (_la===9) {
 				{
 				{
 				this.state = 71;
@@ -449,7 +449,7 @@ export default class JsonGenParser extends Parser {
 			this.state = 86;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===8) {
+			if (_la===11) {
 				{
 				this.state = 85;
 				this.args();
@@ -487,7 +487,7 @@ export default class JsonGenParser extends Parser {
 			this.state = 94;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===6) {
+			while (_la===9) {
 				{
 				{
 				this.state = 90;
@@ -531,7 +531,7 @@ export default class JsonGenParser extends Parser {
 			this.state = 102;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===5) {
+			if (_la===8) {
 				{
 				this.state = 100;
 				this.match(JsonGenParser.ASSIGNMENT);
@@ -569,12 +569,12 @@ export default class JsonGenParser extends Parser {
 			switch (this._input.LA(1)) {
 			case 2:
 			case 3:
-			case 10:
-			case 12:
-			case 14:
-			case 16:
+			case 4:
+			case 5:
+			case 6:
+			case 13:
+			case 15:
 			case 17:
-			case 18:
 				this.enterOuterAlt(localctx, 1);
 				{
 				this.state = 104;
@@ -588,7 +588,7 @@ export default class JsonGenParser extends Parser {
 				this.match(JsonGenParser.RANGE_VALUE);
 				}
 				break;
-			case 4:
+			case 7:
 				this.enterOuterAlt(localctx, 3);
 				{
 				this.state = 106;
@@ -596,7 +596,7 @@ export default class JsonGenParser extends Parser {
 				this.state = 108;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la===8) {
+				if (_la===11) {
 					{
 					this.state = 107;
 					this.args();
@@ -636,26 +636,26 @@ export default class JsonGenParser extends Parser {
 	1,0,0,0,4,48,1,0,0,0,6,50,1,0,0,0,8,67,1,0,0,0,10,69,1,0,0,0,12,82,1,0,
 	0,0,14,84,1,0,0,0,16,88,1,0,0,0,18,99,1,0,0,0,20,110,1,0,0,0,22,23,3,14,
 	7,0,23,24,5,0,0,1,24,1,1,0,0,0,25,34,5,2,0,0,26,34,5,3,0,0,27,34,3,4,2,
-	0,28,34,3,8,4,0,29,34,5,17,0,0,30,34,5,18,0,0,31,34,5,16,0,0,32,34,3,10,
-	5,0,33,25,1,0,0,0,33,26,1,0,0,0,33,27,1,0,0,0,33,28,1,0,0,0,33,29,1,0,0,
-	0,33,30,1,0,0,0,33,31,1,0,0,0,33,32,1,0,0,0,34,3,1,0,0,0,35,36,5,12,0,0,
-	36,41,3,6,3,0,37,38,5,6,0,0,38,40,3,6,3,0,39,37,1,0,0,0,40,43,1,0,0,0,41,
-	39,1,0,0,0,41,42,1,0,0,0,42,44,1,0,0,0,43,41,1,0,0,0,44,45,5,13,0,0,45,
-	49,1,0,0,0,46,47,5,12,0,0,47,49,5,13,0,0,48,35,1,0,0,0,48,46,1,0,0,0,49,
-	5,1,0,0,0,50,51,5,2,0,0,51,52,5,7,0,0,52,53,3,14,7,0,53,7,1,0,0,0,54,55,
-	5,10,0,0,55,60,3,14,7,0,56,57,5,6,0,0,57,59,3,14,7,0,58,56,1,0,0,0,59,62,
+	0,28,34,3,8,4,0,29,34,5,5,0,0,30,34,5,6,0,0,31,34,5,4,0,0,32,34,3,10,5,
+	0,33,25,1,0,0,0,33,26,1,0,0,0,33,27,1,0,0,0,33,28,1,0,0,0,33,29,1,0,0,0,
+	33,30,1,0,0,0,33,31,1,0,0,0,33,32,1,0,0,0,34,3,1,0,0,0,35,36,5,15,0,0,36,
+	41,3,6,3,0,37,38,5,9,0,0,38,40,3,6,3,0,39,37,1,0,0,0,40,43,1,0,0,0,41,39,
+	1,0,0,0,41,42,1,0,0,0,42,44,1,0,0,0,43,41,1,0,0,0,44,45,5,16,0,0,45,49,
+	1,0,0,0,46,47,5,15,0,0,47,49,5,16,0,0,48,35,1,0,0,0,48,46,1,0,0,0,49,5,
+	1,0,0,0,50,51,5,2,0,0,51,52,5,10,0,0,52,53,3,14,7,0,53,7,1,0,0,0,54,55,
+	5,13,0,0,55,60,3,14,7,0,56,57,5,9,0,0,57,59,3,14,7,0,58,56,1,0,0,0,59,62,
 	1,0,0,0,60,58,1,0,0,0,60,61,1,0,0,0,61,63,1,0,0,0,62,60,1,0,0,0,63,64,5,
-	11,0,0,64,68,1,0,0,0,65,66,5,10,0,0,66,68,5,11,0,0,67,54,1,0,0,0,67,65,
-	1,0,0,0,68,9,1,0,0,0,69,70,5,14,0,0,70,75,3,12,6,0,71,72,5,6,0,0,72,74,
+	14,0,0,64,68,1,0,0,0,65,66,5,13,0,0,66,68,5,14,0,0,67,54,1,0,0,0,67,65,
+	1,0,0,0,68,9,1,0,0,0,69,70,5,17,0,0,70,75,3,12,6,0,71,72,5,9,0,0,72,74,
 	3,12,6,0,73,71,1,0,0,0,74,77,1,0,0,0,75,73,1,0,0,0,75,76,1,0,0,0,76,78,
-	1,0,0,0,77,75,1,0,0,0,78,79,5,15,0,0,79,11,1,0,0,0,80,83,3,14,7,0,81,83,
+	1,0,0,0,77,75,1,0,0,0,78,79,5,18,0,0,79,11,1,0,0,0,80,83,3,14,7,0,81,83,
 	3,20,10,0,82,80,1,0,0,0,82,81,1,0,0,0,83,13,1,0,0,0,84,86,3,2,1,0,85,87,
-	3,16,8,0,86,85,1,0,0,0,86,87,1,0,0,0,87,15,1,0,0,0,88,89,5,8,0,0,89,94,
-	3,18,9,0,90,91,5,6,0,0,91,93,3,18,9,0,92,90,1,0,0,0,93,96,1,0,0,0,94,92,
-	1,0,0,0,94,95,1,0,0,0,95,97,1,0,0,0,96,94,1,0,0,0,97,98,5,9,0,0,98,17,1,
-	0,0,0,99,102,5,4,0,0,100,101,5,5,0,0,101,103,3,20,10,0,102,100,1,0,0,0,
-	102,103,1,0,0,0,103,19,1,0,0,0,104,111,3,2,1,0,105,111,5,1,0,0,106,108,
-	5,4,0,0,107,109,3,16,8,0,108,107,1,0,0,0,108,109,1,0,0,0,109,111,1,0,0,
+	3,16,8,0,86,85,1,0,0,0,86,87,1,0,0,0,87,15,1,0,0,0,88,89,5,11,0,0,89,94,
+	3,18,9,0,90,91,5,9,0,0,91,93,3,18,9,0,92,90,1,0,0,0,93,96,1,0,0,0,94,92,
+	1,0,0,0,94,95,1,0,0,0,95,97,1,0,0,0,96,94,1,0,0,0,97,98,5,12,0,0,98,17,
+	1,0,0,0,99,102,5,7,0,0,100,101,5,8,0,0,101,103,3,20,10,0,102,100,1,0,0,
+	0,102,103,1,0,0,0,103,19,1,0,0,0,104,111,3,2,1,0,105,111,5,1,0,0,106,108,
+	5,7,0,0,107,109,3,16,8,0,108,107,1,0,0,0,108,109,1,0,0,0,109,111,1,0,0,
 	0,110,104,1,0,0,0,110,105,1,0,0,0,110,106,1,0,0,0,111,21,1,0,0,0,12,33,
 	41,48,60,67,75,82,86,94,102,108,110];
 

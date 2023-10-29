@@ -1,0 +1,20 @@
+{
+  "locale": [
+    {
+      "code": "ru",
+      "values": [
+        "Илья",
+        "Дима",
+        "Василий"
+      ]
+    },
+    {
+      "code": "en",
+      "values": [
+        "Illia",
+        "Dima",
+        "Vasilii"
+      ]
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 export class JsonGenValue {
 
-    private _identifier: string
-    private _args: Map<string, any>
+    readonly identifier: string
+    readonly args: Map<string, any>
 
-    constructor(identifier: string, args: Map<string, any>) {
-        this._identifier = identifier
-        this._args = args
+    constructor(identifier: string, args?: Map<string, any>) {
+        this.identifier = identifier
+        this.args = args ? args : new Map<string, any>()
     }
 
 }

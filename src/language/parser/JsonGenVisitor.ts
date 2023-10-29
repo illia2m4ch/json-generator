@@ -162,14 +162,17 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
             let value = parseTree.getText()
             let index = value.indexOf('..')
             let from = +value.substring(0, index)
-            let to = +value.substring(index + 1, value.length)
+            let to = +value.substring(index + 2, value.length)
             return new JsonGenRangeValue(from, to)
         }
 
         if (parseTree = ctx.IDENTIFIER()) {
             let identifier = parseTree.getText()
-            let args = this.visit(ctx.args())
-            return new JsonGenValue(identifier, args)
+            if (ctx.args()) {
+                let args = this.visit(ctx.args())
+                return new JsonGenValue(identifier, args)
+            }
+            return new JsonGenValue(identifier)
         }
 
         return null
