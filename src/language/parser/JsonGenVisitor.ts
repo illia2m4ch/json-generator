@@ -33,7 +33,7 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
 
         if (parseTree = ctx.STRING()) {
             let value = parseTree.getText()
-            return new JsonGenString(value.substring(1, value.length - 2)) // remove quotes
+            return new JsonGenString(value.substring(1, value.length - 1)) // remove quotes
         }
 
         if (parseTree = ctx.NUMBER()) {
@@ -82,7 +82,7 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
     override visitPair = (ctx: PairContext) => {
         let name = ctx.STRING().getText()
         let value = this.visit(ctx.value())
-        return [name.substring(1, name.length - 2), value]
+        return [name.substring(1, name.length - 1), value]
     }
 
     override visitArr: (ctx: ArrContext) => JsonGenArray<any> = ctx => {
@@ -162,7 +162,7 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
             let value = parseTree.getText()
             let index = value.indexOf('..')
             let from = +value.substring(0, index)
-            let to = +value.substring(index + 1, value.length - 1)
+            let to = +value.substring(index + 1, value.length)
             return new JsonGenRangeValue(from, to)
         }
 
