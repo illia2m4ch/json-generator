@@ -69,20 +69,16 @@ export class JsonGenObject extends StaticJsonGenNode<Map<string, JsonGenNode<any
 
 export class JsonGenArray<Item> extends StaticJsonGenNode<JsonGenNode<Item>[]> {
 
+    private static ATTR_SIZE = "size"
+
     attrSize() {
-        let size = this.attributes.get("size")
+        let size = this.attributes.get(JsonGenArray.ATTR_SIZE)
         return size ? size : 1
     }
 
     json(context: JsonGenContext): any {
-        let array = JsonGenRandom.items(this.value(), this.attrSize())
-            .filter(v => {
-                if (!v.isOptional()) return true
-                return JsonGenRandom.boolean()
-            })
+        return JsonGenRandom.items(this.value(), this.attrSize())
             .map(v => v.json(context))
-
-        return array
     }
 
 }
