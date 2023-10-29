@@ -2,14 +2,35 @@ import './App.css'
 import React from 'react'
 import Editor from '@monaco-editor/react'
 import * as JsonGenTokensProvider from '../src/language/parser/JsonGenTokensProvider.ts'
-import {JsonGenArray, JsonGenNumber, JsonGenPlaceholder} from "./language/model/JsonGenNode.ts"
-import {parseTree, parseTreeStr} from "./language/parser/JsonGenParser.ts";
-import {JsonGenVisitor} from "./language/parser/JsonGenVisitor.ts";
-import {JsonGenContext} from "./language/data/JsonGenContext.ts";
+import {JsonGenArray, JsonGenNumber, JsonGenPlaceholder} from './language/model/JsonGenNode.ts'
+import {parseTree, parseTreeStr} from './language/parser/JsonGenParser.ts';
+import {JsonGenVisitor} from './language/parser/JsonGenVisitor.ts';
+import {JsonGenContext} from './language/data/JsonGenContext.ts';
 
 function initMonaco(monaco) {
   monaco.languages.register({ id: 'jsonGen' })
   monaco.languages.setTokensProvider('jsonGen', new JsonGenTokensProvider.JsonGenTokensProvider())
+
+  const config = {
+    'brackets': [
+      ['{', '}'],
+      ['[', ']'],
+      ['<', '>'],
+      ['(', ')']
+    ],
+    'autoClosingPairs': [
+      { 'open': '{', 'close': '}', 'notIn': ['STRING'] },
+      { 'open': '[', 'close': ']', 'notIn': ['STRING'] },
+      { 'open': '<', 'close': '>', 'notIn': ['STRING'] },
+      { 'open': '(', 'close': ')', 'notIn': ['STRING'] },
+      { 'open': '"', 'close': '"', 'notIn': ['STRING'] }
+    ],
+    'indentationRules': {
+      'increaseIndentPattern': '({+(?=((\\\\.|[^\'\\\\])*\'(\\\\.|[^\'\\\\])*\')*[^\'}]*)$)|(\\[+(?=((\\\\.|[^\'\\\\])*\'(\\\\.|[^\'\\\\])*\')*[^\'\\]]*)$)',
+      'decreaseIndentPattern': '^\\s*[}\\]],?\\s*$'
+    }
+  }
+  monaco.languages.setLanguageConfiguration('jsonGen', config)
 
   let commonFg = 'ffffff'
   let argumentsFg = '979797'
@@ -45,7 +66,7 @@ function initMonaco(monaco) {
 
       { token: 'NULL',   foreground: valueFg },
       { token: 'TRUE',   foreground: valueFg },
-      { token: 'FALSE',   foreground: valueFg },
+      { token: 'FALSE',   foreground: valueFg }
     ]
   })
 }
@@ -64,9 +85,9 @@ function onEditorChange(value, event) {
 
 function App() {
   return <Editor
-      height="90vh"
-      theme="jsonGenTheme"
-      defaultLanguage="jsonGen"
+      height='90vh'
+      theme='jsonGenTheme'
+      defaultLanguage='jsonGen'
       defaultValue={
 `{
     "items": [
