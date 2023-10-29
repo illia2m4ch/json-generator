@@ -6,7 +6,7 @@ import {JsonGenContext} from "../data/JsonGenContext";
 export abstract class JsonGenNode<Value> {
 
     private static ATTR_OPTIONAL = 'optional'
-    private static VAL_DEFAULT_OPTIONAL = 'defaultArraySize'
+    private static VAL_DEFAULT_OPTIONAL = 'defaultOptional'
 
     protected attributes: Map<string, any> = new Map<string, any>()
 
@@ -18,7 +18,7 @@ export abstract class JsonGenNode<Value> {
         if (this.attributes.has(JsonGenNode.ATTR_OPTIONAL)) {
             return true
         }
-        return context.get(JsonGenNode.VAL_DEFAULT_OPTIONAL)
+        return context.get(JsonGenNode.VAL_DEFAULT_OPTIONAL)[0]
     }
 
     abstract value(): Value
