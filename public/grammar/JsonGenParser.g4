@@ -1,5 +1,7 @@
 parser grammar JsonGenParser;
 
+options { tokenVocab = JsonGenLexer; }
+
 // JSON
 
 jsongen
