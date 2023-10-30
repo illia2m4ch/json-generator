@@ -140,6 +140,10 @@ export class JsonGenPlaceholder<Item> extends JsonGenNode<Item> {
                 return result.json(placeholderContext)
             }
 
+            if (result instanceof JsonGenRangeValue) {
+                return JsonGenRandom.number(result.from, result.to)
+            }
+
             return null
         }
 
