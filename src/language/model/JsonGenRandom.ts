@@ -8,7 +8,6 @@ export class JsonGenRandom {
     }
 
     static items<T>(arr: T[], size: JsonGenNumber | JsonGenRangeValue): T[] {
-        let array: T[] = []
         let staticSize = 1
 
         if (size instanceof JsonGenNumber) {
@@ -16,6 +15,12 @@ export class JsonGenRandom {
         } else if (size instanceof JsonGenRangeValue) {
             staticSize = this.number(size.from, size.to)
         }
+
+        if (staticSize === 0) {
+            return arr
+        }
+
+        let array: T[] = []
 
         for (let i = 0; i < staticSize; i++) {
             array.push(this.item(arr))

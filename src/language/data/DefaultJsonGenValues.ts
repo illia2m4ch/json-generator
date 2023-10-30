@@ -8,6 +8,6 @@ export function defineDefaultDataSets(values: JsonGenContext) {
     values.define('name', new LocaleJsonGenDataSet(nameJson))
 
     // values
-    values.define('defArraySize', new JsonGenNumber(1))
+    values.define('defArraySize', new JsonGenNumber(0))
     values.define('defOptional', new JsonGenBoolean(false))
 }
