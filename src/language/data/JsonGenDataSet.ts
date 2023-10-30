@@ -21,13 +21,31 @@ export class EnumJsonGenDataSet extends JsonGenDataSet {
 
 }
 
-export class LocaleJsonGenDataSet extends JsonGenDataSet {
+export class CategoryJsonGenDataSet extends JsonGenDataSet {
+
+    private readonly _category: string
+    private readonly _defValue: string
+
+    constructor(category: string, defValue: string, json: object) {
+        super(json)
+        this._category = category
+        this._defValue = defValue
+    }
+
     values(args: Map<string, any>): any[] {
-        let locale = args?.get("locale")?.value() ?? "ru"
-        let values = (this.json["locale"] as Array<any>).find(v => v["code"] === locale)
-        if (!values) {
+        let value = args?.get(this._category)?.value() ?? this._defValue
+
+        if (!this.json[this._category]) {
             return []
         }
-        return values["values"]
+
+        let values = (this.json[this._category][value])
+
+        if (values instanceof Array) {
+            return values
+        }
+
+        return []
     }
+
 }
