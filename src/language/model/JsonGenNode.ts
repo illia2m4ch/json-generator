@@ -97,7 +97,7 @@ export class JsonGenArray<Item> extends StaticJsonGenNode<JsonGenNode<Item>[]> {
         return JsonGenRandom.items(this.value(), this.attrSize(arrayContext))
             .map((value, index) => {
                 let itemContext = arrayContext.copy()
-                itemContext.define('index', index)
+                itemContext.define('index', new JsonGenNumber(index))
                 return value.json(itemContext)
             })
     }
