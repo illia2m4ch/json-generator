@@ -1,4 +1,5 @@
 import {JsonGenRangeValue} from "./JsonGenRangeValue.ts";
+import {JsonGenNumber} from "./JsonGenNode";
 
 export class JsonGenRandom {
 
@@ -6,14 +7,14 @@ export class JsonGenRandom {
         return arr[this.number(0, arr.length - 1)]
     }
 
-    static items<T>(arr: T[], size: number | JsonGenRangeValue): T[] {
+    static items<T>(arr: T[], size: JsonGenNumber | JsonGenRangeValue): T[] {
         let array: T[] = []
-        let staticSize
+        let staticSize = 1
 
-        if (size instanceof JsonGenRangeValue) {
+        if (size instanceof JsonGenNumber) {
+            staticSize = size.value()
+        } else if (size instanceof JsonGenRangeValue) {
             staticSize = this.number(size.from, size.to)
-        } else {
-            staticSize = size
         }
 
         for (let i = 0; i < staticSize; i++) {

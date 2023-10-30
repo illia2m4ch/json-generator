@@ -2,11 +2,12 @@ import {JsonGenRangeValue} from "./JsonGenRangeValue.ts";
 import {JsonGenValue} from "./JsonGenValue.ts";
 import {JsonGenRandom} from "./JsonGenRandom.ts";
 import {JsonGenContext} from "../data/JsonGenContext";
+import {JsonGenDataSet} from "../data/JsonGenDataSet";
 
 export abstract class JsonGenNode<Value> {
 
     private static ATTR_OPTIONAL = 'optional'
-    private static VAL_DEFAULT_OPTIONAL = 'defaultOptional'
+    private static VAL_DEFAULT_OPTIONAL = 'defOptional'
 
     protected attributes: Map<string, any> = new Map<string, any>()
 
@@ -18,7 +19,13 @@ export abstract class JsonGenNode<Value> {
         if (this.attributes.has(JsonGenNode.ATTR_OPTIONAL)) {
             return true
         }
-        return context.get(JsonGenNode.VAL_DEFAULT_OPTIONAL)[0]
+        return context.get(JsonGenNode.VAL_DEFAULT_OPTIONAL).value()
+    }
+
+    wrapContext(context: JsonGenContext) {
+        let copy = context.copy()
+        this.attributes.forEach((v, k) => copy.define(k, v))
+        return copy
     }
 
     abstract value(): Value
@@ -64,10 +71,11 @@ export class JsonGenString extends StaticJsonGenNode<string> {
 
 export class JsonGenObject extends StaticJsonGenNode<Map<string, JsonGenNode<any>>> {
     json(context: JsonGenContext): any {
+        let objContext = this.wrapContext(context)
         let object = {}
         this.value().forEach((v, k) => {
-            if (!v.isOptional(context) || JsonGenRandom.boolean()) {
-                object[k] = v.json(context)
+            if (!v.isOptional(objContext) || JsonGenRandom.boolean()) {
+                object[k] = v.json(objContext)
             }
         })
         return object
@@ -77,7 +85,7 @@ export class JsonGenObject extends StaticJsonGenNode<Map<string, JsonGenNode<any
 export class JsonGenArray<Item> extends StaticJsonGenNode<JsonGenNode<Item>[]> {
 
     private static ATTR_SIZE = 'size'
-    private static VAL_DEFAULT_ARRAY_SIZE = 'defaultArraySize'
+    private static VAL_DEFAULT_ARRAY_SIZE = 'defArraySize'
 
     attrSize(context: JsonGenContext) {
         let size = this.attributes.get(JsonGenArray.ATTR_SIZE)
@@ -85,11 +93,12 @@ export class JsonGenArray<Item> extends StaticJsonGenNode<JsonGenNode<Item>[]> {
     }
 
     json(context: JsonGenContext): any {
-        return JsonGenRandom.items(this.value(), this.attrSize(context))
+        let arrayContext = this.wrapContext(context)
+        return JsonGenRandom.items(this.value(), this.attrSize(arrayContext))
             .map((value, index) => {
-                let itemContext = context.copy()
+                let itemContext = arrayContext.copy()
                 itemContext.define('index', index)
-                return value.json(context)
+                return value.json(itemContext)
             })
     }
 
@@ -109,10 +118,11 @@ export class JsonGenPlaceholder<Item> extends JsonGenNode<Item> {
     }
 
     json(context: JsonGenContext): any {
+        let placeholderContext = this.wrapContext(context)
         let value = this.value()
 
         if (value instanceof JsonGenNode) {
-            return value.json(context)
+            return value.json(placeholderContext)
         }
 
         if (value instanceof JsonGenRangeValue) {
@@ -120,7 +130,17 @@ export class JsonGenPlaceholder<Item> extends JsonGenNode<Item> {
         }
 
         if (value instanceof JsonGenValue) {
-            return JsonGenRandom.item(context.get(value.identifier, value.args))
+            let result = placeholderContext.get(value.identifier, value.args)
+
+            if (result instanceof Array) {
+                return JsonGenRandom.item(result)
+            }
+
+            if (result instanceof JsonGenNode) {
+                return result.json(placeholderContext)
+            }
+
+            return null
         }
 
         return value

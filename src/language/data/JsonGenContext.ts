@@ -1,5 +1,6 @@
 import {JsonGenDataSet} from "./JsonGenDataSet.ts";
 import {defineDefaultDataSets} from "./DefaultJsonGenValues.ts";
+import {JsonGenNode} from "../model/JsonGenNode";
 
 export class JsonGenContext {
 
@@ -17,17 +18,17 @@ export class JsonGenContext {
         this.values.set(identificator, value)
     }
 
-    get(identificator: string, args?: Map<string, any>): any[] {
+    get(identificator: string, args?: Map<string, any>): any {
 
         if (this.dataSets.has(identificator)) {
             return this.dataSets.get(identificator).values(args)
         }
 
         if (this.values.has(identificator)) {
-            return [this.values.get(identificator)]
+            return this.values.get(identificator)
         }
 
-        return []
+        return null
     }
 
     value(identificator: string): any {
@@ -36,8 +37,8 @@ export class JsonGenContext {
 
     copy() {
         let copy = new JsonGenContext()
-        copy.dataSets = this.dataSets
-        copy.values = this.values
+        copy.dataSets = new Map(this.dataSets)
+        copy.values = new Map(this.values)
         return copy
     }
 
