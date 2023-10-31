@@ -135,12 +135,8 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
             let result = this.visit(arg)
             let name = result[0]
 
-            if (!name) {
-                name = index.toString()
-                index++
-            }
-
-            args.set(name, result[1])
+            args.set(name ? name : index.toString(), result[1])
+            index++
         })
 
         return args
