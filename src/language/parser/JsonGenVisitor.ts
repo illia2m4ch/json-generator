@@ -130,23 +130,28 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
 
     override visitArgs = (ctx: ArgsContext) => {
         let args = new Map<String, any>()
-
+        let index = 0
         ctx.arg_list().forEach(arg => {
             let result = this.visit(arg)
-            args.set(result[0], result[1])
+            let name = result[0]
+
+            if (!name) {
+                name = index.toString()
+                index++
+            }
+
+            args.set(name, result[1])
         })
 
         return args
     }
 
     override visitArg = (ctx: ArgContext) => {
-        let name = ctx.IDENTIFIER().getText()
+        let identifier = ctx.IDENTIFIER()
+        let parameterValue = ctx.parameterValue()
 
-        if (!ctx.parameterValue()) {
-            return [name, null]
-        }
-
-        let value = this.visit(ctx.parameterValue())
+        let name = identifier ? identifier.getText() : null
+        let value = parameterValue ? this.visit(parameterValue) : null
 
         return [name, value]
     }

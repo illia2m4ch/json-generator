@@ -89,6 +89,7 @@ export class JsonGenArray<Item> extends StaticJsonGenNode<JsonGenNode<Item>[]> {
 
     attrSize(context: JsonGenContext) {
         let size = this.attributes.get(JsonGenArray.ATTR_SIZE)
+        size = size ? size : this.attributes.get('0')
         return size ? size : context.get(JsonGenArray.VAL_DEFAULT_ARRAY_SIZE)
     }
 
