@@ -29,7 +29,7 @@ export abstract class JsonGenNode<Value> {
     }
 
     wrapContext(context: JsonGenContext) {
-        let copy = context.copy()
+        let copy = context.child()
         this.attributes.forEach((v, k) => copy.define(k, v))
         return copy
     }
@@ -103,7 +103,7 @@ export class JsonGenArray<Item> extends StaticJsonGenNode<JsonGenNode<Item>[]> {
         let arrayContext = this.wrapContext(context)
         return JsonGenRandom.items(this.value(), this.attrSize(arrayContext))
             .map((value, index) => {
-                let itemContext = arrayContext.copy()
+                let itemContext = arrayContext.child()
                 itemContext.define('index', new JsonGenNumber(index))
                 return value.json(itemContext)
             })

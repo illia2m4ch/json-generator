@@ -5,6 +5,8 @@ import {JsonGenFunction} from "./JsonGenFunction";
 
 export class JsonGenContext {
 
+    private parent: JsonGenContext = null
+
     private dataSets = new Map<string, JsonGenDataSet>()
     private values = new Map<string, any>()
     private functions = new Map<string, JsonGenFunction>()
@@ -37,15 +39,17 @@ export class JsonGenContext {
             return this.dataSets.get(identificator).values(args)
         }
 
+        if (this.parent) {
+            return this.parent.get(identificator, args)
+        }
+
         return null
     }
 
-    copy() { // переделать в систему child / parent чтобы не дублировать каждый раз
-        let copy = new JsonGenContext()
-        copy.dataSets = new Map(this.dataSets)
-        copy.values = new Map(this.values)
-        copy.functions = new Map(this.functions)
-        return copy
+    child() { // переделать в систему child / parent чтобы не дублировать каждый раз
+        let child = new JsonGenContext()
+        child.parent = this
+        return child
     }
 
 }
