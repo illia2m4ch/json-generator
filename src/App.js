@@ -77,7 +77,7 @@ let visitor = new JsonGenVisitor()
 function onEditorChange(value, event) {
   try {
     let context = new JsonGenContext()
-    let json = JSON.stringify(visitor.visitJsongen(parseTree(value)).json(context),null,2)
+    let json = JSON.stringify(visitor.visitJsonGen(parseTree(value)).json(context),null,2)
     console.log(json)
   } catch (e) {
     console.error(e)

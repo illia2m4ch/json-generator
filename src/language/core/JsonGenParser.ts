@@ -39,7 +39,7 @@ export default class JsonGenParser extends Parser {
 	public static readonly RPLACEHOLDER = 18;
 	public static readonly WS = 19;
 	public static readonly EOF = Token.EOF;
-	public static readonly RULE_jsongen = 0;
+	public static readonly RULE_jsonGen = 0;
 	public static readonly RULE_simpleValue = 1;
 	public static readonly RULE_obj = 2;
 	public static readonly RULE_pair = 3;
@@ -75,7 +75,7 @@ export default class JsonGenParser extends Parser {
                                                              "WS" ];
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
-		"jsongen", "simpleValue", "obj", "pair", "arr", "placeholder", "placeholderValue", 
+		"jsonGen", "simpleValue", "obj", "pair", "arr", "placeholder", "placeholderValue", 
 		"value", "args", "arg", "parameterValue",
 	];
 	public get grammarFileName(): string { return "JsonGenParser.g4"; }
@@ -93,9 +93,9 @@ export default class JsonGenParser extends Parser {
 		this._interp = new ParserATNSimulator(this, JsonGenParser._ATN, JsonGenParser.DecisionsToDFA, new PredictionContextCache());
 	}
 	// @RuleVersion(0)
-	public jsongen(): JsongenContext {
-		let localctx: JsongenContext = new JsongenContext(this, this._ctx, this.state);
-		this.enterRule(localctx, 0, JsonGenParser.RULE_jsongen);
+	public jsonGen(): JsonGenContext {
+		let localctx: JsonGenContext = new JsonGenContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 0, JsonGenParser.RULE_jsonGen);
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
@@ -675,7 +675,7 @@ export default class JsonGenParser extends Parser {
 
 }
 
-export class JsongenContext extends ParserRuleContext {
+export class JsonGenContext extends ParserRuleContext {
 	constructor(parser?: JsonGenParser, parent?: ParserRuleContext, invokingState?: number) {
 		super(parent, invokingState);
     	this.parser = parser;
@@ -687,22 +687,22 @@ export class JsongenContext extends ParserRuleContext {
 		return this.getToken(JsonGenParser.EOF, 0);
 	}
     public get ruleIndex(): number {
-    	return JsonGenParser.RULE_jsongen;
+    	return JsonGenParser.RULE_jsonGen;
 	}
 	public enterRule(listener: JsonGenParserListener): void {
-	    if(listener.enterJsongen) {
-	 		listener.enterJsongen(this);
+	    if(listener.enterJsonGen) {
+	 		listener.enterJsonGen(this);
 		}
 	}
 	public exitRule(listener: JsonGenParserListener): void {
-	    if(listener.exitJsongen) {
-	 		listener.exitJsongen(this);
+	    if(listener.exitJsonGen) {
+	 		listener.exitJsonGen(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: JsonGenParserVisitor<Result>): Result {
-		if (visitor.visitJsongen) {
-			return visitor.visitJsongen(this);
+		if (visitor.visitJsonGen) {
+			return visitor.visitJsonGen(this);
 		} else {
 			return visitor.visitChildren(this);
 		}

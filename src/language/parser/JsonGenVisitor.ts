@@ -21,11 +21,12 @@ import {
 import {ParseTree} from "antlr4/src/antlr4/tree/ParseTree.ts";
 import {JsonGenRangeValue} from "../model/JsonGenRangeValue.ts";
 import {JsonGenValue} from "../model/JsonGenValue.ts";
+import {JsonGenType} from "../model/JsonGenType";
 
 export class JsonGenVisitor extends JsonGenParserVisitor<any> {
 
-    override visitJsongen: (ctx: JsongenContext) => JsonGenNode<any> = (ctx: JsongenContext) => {
-        return this.visit(ctx.value())
+    override visitJsonGen: (ctx: JsongenContext) => JsonGenNode<any> = (ctx: JsongenContext) => {
+        return this.visitValue(ctx.value())
     }
 
     override visitSimpleValue: (ctx: SimpleValueContext) => JsonGenNode<any> = ctx=> {
@@ -42,11 +43,11 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
         }
 
         if (parseTree = ctx.obj()) {
-            return this.visit(parseTree)
+            return this.visitObj(parseTree as ObjContext)
         }
 
         if (parseTree = ctx.arr()) {
-            return this.visit(parseTree)
+            return this.visitArr(parseTree as ArrContext)
         }
 
         if (parseTree = ctx.TRUE()) {
@@ -62,7 +63,7 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
         }
 
         if (parseTree = ctx.placeholder()) {
-            return this.visit(parseTree)
+            return this.visitPlaceholder(parseTree as PlaceholderContext)
         }
 
         return null
@@ -72,67 +73,67 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
         let pairs = new Map<string, JsonGenNode<any>>()
 
         ctx.pair_list().forEach(pair => {
-            let result = this.visit(pair)
+            let result = this.visitPair(pair)
             pairs.set(result[0], result[1])
         })
 
         return new JsonGenObject(pairs)
     }
 
-    override visitPair = (ctx: PairContext) => {
+    override visitPair: (ctx: PairContext) => [string, JsonGenNode<any>] = ctx => {
         let name = ctx.STRING().getText()
-        let value = this.visit(ctx.value())
+        let value = this.visitValue(ctx.value())
         return [name.substring(1, name.length - 1), value]
     }
 
-    override visitArr: (ctx: ArrContext) => JsonGenArray<any> = ctx => {
-        let items = []
+    override visitArr: (ctx: ArrContext) => JsonGenArray<JsonGenNode<any>> = ctx => {
+        let items: JsonGenNode<any>[] = []
 
         ctx.value_list().forEach(value => {
-            let item = this.visit(value)
+            let item = this.visitValue(value)
             items.push(item)
         })
 
         return new JsonGenArray(items)
     }
 
-    override visitPlaceholder = (ctx: PlaceholderContext) => {
-        let items = []
+    override visitPlaceholder: (ctx: PlaceholderContext) => JsonGenPlaceholder<JsonGenType> = ctx => {
+        let items: JsonGenType[] = []
 
         ctx.placeholderValue_list().forEach(value => {
-            let item = this.visit(value)
+            let item = this.visitPlaceholderValue(value)
             items.push(item)
         })
 
         return new JsonGenPlaceholder(items)
     }
 
-    override visitPlaceholderValue = (ctx: PlaceholderValueContext) => {
+    override visitPlaceholderValue: (ctx: PlaceholderValueContext) => JsonGenType = ctx => {
         let parseTree: ParseTree
 
         if (parseTree = ctx.value()) {
-            return this.visit(parseTree)
+            return this.visitValue(parseTree as ValueContext)
         }
 
         if (parseTree = ctx.parameterValue()) {
-            return this.visit(parseTree)
+            return this.visitParameterValue(parseTree as ParameterValueContext)
         }
     }
 
-    override visitValue = (ctx: ValueContext) => {
-        let node = this.visit(ctx.simpleValue())
+    override visitValue: (ctx: ValueContext) => JsonGenNode<any> = ctx => {
+        let node = this.visitSimpleValue(ctx.simpleValue())
         if (ctx.args()) {
-            let attributes = this.visit(ctx.args())
+            let attributes = this.visitArgs(ctx.args())
             node.setAttributes(attributes)
         }
         return node
     }
 
-    override visitArgs = (ctx: ArgsContext) => {
-        let args = new Map<String, any>()
+    override visitArgs: (ctx: ArgsContext) => Map<string, JsonGenType> = ctx => {
+        let args = new Map<string, JsonGenType>()
         let index = 0
         ctx.arg_list().forEach(arg => {
-            let result = this.visit(arg)
+            let result = this.visitArg(arg)
             let name = result[0]
 
             args.set(name ? name : index.toString(), result[1])
@@ -142,20 +143,20 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
         return args
     }
 
-    override visitArg = (ctx: ArgContext) => {
+    override visitArg: (ctx: ArgContext) => [string, JsonGenType] = ctx => {
         let identifier = ctx.IDENTIFIER()
 
         let name = identifier ? identifier.getText() : null
-        let value = this.visit(ctx.parameterValue())
+        let value = this.visitParameterValue(ctx.parameterValue())
 
         return [name, value]
     }
 
-    override visitParameterValue = (ctx: ParameterValueContext) => {
+    override visitParameterValue: (ctx: ParameterValueContext) => JsonGenType = ctx => {
         let parseTree: ParseTree
 
         if (parseTree = ctx.value()) {
-            return this.visit(parseTree)
+            return this.visitValue(parseTree as ValueContext)
         }
 
         if (parseTree = ctx.RANGE_VALUE()) {
@@ -169,7 +170,7 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
         if (parseTree = ctx.IDENTIFIER()) {
             let identifier = parseTree.getText()
             if (ctx.args()) {
-                let args = this.visit(ctx.args())
+                let args = this.visitArgs(ctx.args())
                 return new JsonGenValue(identifier, args)
             }
             return new JsonGenValue(identifier)

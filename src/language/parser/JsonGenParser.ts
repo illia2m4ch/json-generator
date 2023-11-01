@@ -30,7 +30,7 @@ function createParserFromLexer(lexer: Lexer) {
 export function parseTree(input: string) {
     const parser = createParser(input);
 
-    return parser.jsongen();
+    return parser.jsonGen();
 }
 
 export function parseTreeStr(input: string) {
@@ -42,7 +42,7 @@ export function parseTreeStr(input: string) {
     parser.removeErrorListeners();
     parser.addErrorListener(new ConsoleErrorListener());
 
-    const tree = parser.jsongen();
+    const tree = parser.jsonGen();
 
     return tree.toStringTree(parser.ruleNames, parser);
 }

@@ -3,7 +3,7 @@
 import {ParseTreeVisitor} from 'antlr4';
 
 
-import { JsongenContext } from "./JsonGenParser";
+import { JsonGenContext } from "./JsonGenParser";
 import { SimpleValueContext } from "./JsonGenParser";
 import { ObjContext } from "./JsonGenParser";
 import { PairContext } from "./JsonGenParser";
@@ -25,11 +25,11 @@ import { ParameterValueContext } from "./JsonGenParser";
  */
 export default class JsonGenParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	/**
-	 * Visit a parse tree produced by `JsonGenParser.jsongen`.
+	 * Visit a parse tree produced by `JsonGenParser.jsonGen`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitJsongen?: (ctx: JsongenContext) => Result;
+	visitJsonGen?: (ctx: JsonGenContext) => Result;
 	/**
 	 * Visit a parse tree produced by `JsonGenParser.simpleValue`.
 	 * @param ctx the parse tree

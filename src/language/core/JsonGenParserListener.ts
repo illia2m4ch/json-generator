@@ -3,7 +3,7 @@
 import {ParseTreeListener} from "antlr4";
 
 
-import { JsongenContext } from "./JsonGenParser";
+import { JsonGenContext } from "./JsonGenParser";
 import { SimpleValueContext } from "./JsonGenParser";
 import { ObjContext } from "./JsonGenParser";
 import { PairContext } from "./JsonGenParser";
@@ -22,15 +22,15 @@ import { ParameterValueContext } from "./JsonGenParser";
  */
 export default class JsonGenParserListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by `JsonGenParser.jsongen`.
+	 * Enter a parse tree produced by `JsonGenParser.jsonGen`.
 	 * @param ctx the parse tree
 	 */
-	enterJsongen?: (ctx: JsongenContext) => void;
+	enterJsonGen?: (ctx: JsonGenContext) => void;
 	/**
-	 * Exit a parse tree produced by `JsonGenParser.jsongen`.
+	 * Exit a parse tree produced by `JsonGenParser.jsonGen`.
 	 * @param ctx the parse tree
 	 */
-	exitJsongen?: (ctx: JsongenContext) => void;
+	exitJsonGen?: (ctx: JsonGenContext) => void;
 	/**
 	 * Enter a parse tree produced by `JsonGenParser.simpleValue`.
 	 * @param ctx the parse tree

@@ -4,7 +4,7 @@ options { tokenVocab = JsonGenLexer; }
 
 // JSON
 
-jsongen
+jsonGen
    : value EOF
    ;
 
