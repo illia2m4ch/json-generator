@@ -580,7 +580,7 @@ export default class JsonGenParser extends Parser {
 				this.enterOuterAlt(localctx, 1);
 				{
 				this.state = 105;
-				this.simpleValue();
+				this.value();
 				}
 				break;
 			case 1:
@@ -656,7 +656,7 @@ export default class JsonGenParser extends Parser {
 	3,18,9,0,90,91,5,9,0,0,91,93,3,18,9,0,92,90,1,0,0,0,93,96,1,0,0,0,94,92,
 	1,0,0,0,94,95,1,0,0,0,95,97,1,0,0,0,96,94,1,0,0,0,97,98,5,12,0,0,98,17,
 	1,0,0,0,99,100,5,7,0,0,100,101,5,8,0,0,101,104,3,20,10,0,102,104,3,20,10,
-	0,103,99,1,0,0,0,103,102,1,0,0,0,104,19,1,0,0,0,105,112,3,2,1,0,106,112,
+	0,103,99,1,0,0,0,103,102,1,0,0,0,104,19,1,0,0,0,105,112,3,14,7,0,106,112,
 	5,1,0,0,107,109,5,7,0,0,108,110,3,16,8,0,109,108,1,0,0,0,109,110,1,0,0,
 	0,110,112,1,0,0,0,111,105,1,0,0,0,111,106,1,0,0,0,111,107,1,0,0,0,112,21,
 	1,0,0,0,12,33,41,48,60,67,75,82,86,94,103,109,111];
@@ -1102,8 +1102,8 @@ export class ParameterValueContext extends ParserRuleContext {
 		super(parent, invokingState);
     	this.parser = parser;
 	}
-	public simpleValue(): SimpleValueContext {
-		return this.getTypedRuleContext(SimpleValueContext, 0) as SimpleValueContext;
+	public value(): ValueContext {
+		return this.getTypedRuleContext(ValueContext, 0) as ValueContext;
 	}
 	public RANGE_VALUE(): TerminalNode {
 		return this.getToken(JsonGenParser.RANGE_VALUE, 0);

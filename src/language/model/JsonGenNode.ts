@@ -2,9 +2,9 @@ import {JsonGenRangeValue} from "./JsonGenRangeValue.ts";
 import {JsonGenValue} from "./JsonGenValue.ts";
 import {JsonGenRandom} from "./JsonGenRandom.ts";
 import {JsonGenContext} from "../data/JsonGenContext";
-import {JsonGenDataSet} from "../data/JsonGenDataSet";
+import {JsonGenType} from "./JsonGenType";
 
-export abstract class JsonGenNode<Value> {
+export abstract class JsonGenNode<Value> extends JsonGenType {
 
     private static VAL_OPTIONAL = 'optional'
     private static VAL_DEFAULT_OPTIONAL = 'defOptional'
@@ -35,7 +35,7 @@ export abstract class JsonGenNode<Value> {
     }
 
     abstract value(): Value
-    abstract json(context: JsonGenContext): any
+
 }
 
 export abstract class StaticJsonGenNode<Value> extends JsonGenNode<Value> {
@@ -128,32 +128,10 @@ export class JsonGenPlaceholder<Item> extends JsonGenNode<Item> {
         let placeholderContext = this.wrapContext(context)
         let value = this.value()
 
-        if (value instanceof JsonGenNode) {
+        if (value instanceof JsonGenType) {
             return value.json(placeholderContext)
         }
 
-        if (value instanceof JsonGenRangeValue) {
-            return JsonGenRandom.number(value.from, value.to)
-        }
-
-        if (value instanceof JsonGenValue) {
-            let result = placeholderContext.get(value.identifier, value.args)
-
-            if (result instanceof Array) {
-                return JsonGenRandom.item(result)
-            }
-
-            if (result instanceof JsonGenNode) {
-                return result.json(placeholderContext)
-            }
-
-            if (result instanceof JsonGenRangeValue) {
-                return JsonGenRandom.number(result.from, result.to)
-            }
-
-            return null
-        }
-
-        return value
+        return null
     }
 }

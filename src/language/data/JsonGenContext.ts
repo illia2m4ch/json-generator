@@ -46,7 +46,7 @@ export class JsonGenContext {
         return null
     }
 
-    child() { // переделать в систему child / parent чтобы не дублировать каждый раз
+    child() {
         let child = new JsonGenContext()
         child.parent = this
         return child

@@ -154,7 +154,7 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
     override visitParameterValue = (ctx: ParameterValueContext) => {
         let parseTree: ParseTree
 
-        if (parseTree = ctx.simpleValue()) {
+        if (parseTree = ctx.value()) {
             return this.visit(parseTree)
         }
 

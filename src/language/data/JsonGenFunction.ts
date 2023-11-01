@@ -3,6 +3,7 @@ import {JsonGenArray, JsonGenNode, JsonGenObject, JsonGenString} from "../model/
 import {JsonGenRangeValue} from "../model/JsonGenRangeValue";
 import {JsonGenRandom} from "../model/JsonGenRandom";
 import {JsonGenValue} from "../model/JsonGenValue";
+import {JsonGenType} from "../model/JsonGenType";
 
 export abstract class JsonGenFunction {
     abstract execute(context: JsonGenContext, args: Map<string, any>)
@@ -12,27 +13,13 @@ export class StringJsonGenFunction extends JsonGenFunction {
     override execute(context: JsonGenContext, args: Map<string, any>) {
         let result = ""
         args.forEach(value => {
-            if (value instanceof JsonGenNode) {
+            if (value instanceof JsonGenType) {
                 let json = value.json(context)
-                if (value instanceof JsonGenObject || value instanceof JsonGenArray) {
-                    json = JSON.stringify(value)
+                if (json instanceof Object) {
+                    json = JSON.stringify(json)
                 }
                 result += json
             }
-
-            if (value instanceof JsonGenRangeValue) {
-                result += JsonGenRandom.number(value.from, value.to)
-            }
-
-            if (value instanceof JsonGenValue) {
-                let json = context.get(value.identifier, value.args).json(context)
-                if (value instanceof JsonGenObject || value instanceof JsonGenArray) {
-                    json = JSON.stringify(value)
-                }
-                result += json
-            }
-
-            // jsongenvalue ?
 
         })
 
