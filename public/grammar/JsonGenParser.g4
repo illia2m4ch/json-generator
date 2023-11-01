@@ -55,7 +55,7 @@ args
     ;
 
 arg
-    : IDENTIFIER (ASSIGNMENT parameterValue)?
+    : IDENTIFIER ASSIGNMENT parameterValue
     | parameterValue
     ;
 

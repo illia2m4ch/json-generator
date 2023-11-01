@@ -6,7 +6,7 @@ import {JsonGenDataSet} from "../data/JsonGenDataSet";
 
 export abstract class JsonGenNode<Value> {
 
-    private static ATTR_OPTIONAL = 'optional'
+    private static VAL_OPTIONAL = 'optional'
     private static VAL_DEFAULT_OPTIONAL = 'defOptional'
 
     protected attributes: Map<string, any> = new Map<string, any>()
@@ -16,7 +16,13 @@ export abstract class JsonGenNode<Value> {
     }
 
     isOptional(context: JsonGenContext) {
-        if (this.attributes.has(JsonGenNode.ATTR_OPTIONAL)) {
+        let isOptional = false
+        this.attributes.forEach(value => {
+            if (value instanceof JsonGenValue && value.identifier === JsonGenNode.VAL_OPTIONAL) {
+                isOptional = true
+            }
+        })
+        if (isOptional) {
             return true
         }
         return context.get(JsonGenNode.VAL_DEFAULT_OPTIONAL).value()

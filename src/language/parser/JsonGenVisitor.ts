@@ -144,10 +144,9 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
 
     override visitArg = (ctx: ArgContext) => {
         let identifier = ctx.IDENTIFIER()
-        let parameterValue = ctx.parameterValue()
 
         let name = identifier ? identifier.getText() : null
-        let value = parameterValue ? this.visit(parameterValue) : null
+        let value = this.visit(ctx.parameterValue())
 
         return [name, value]
     }
