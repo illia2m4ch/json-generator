@@ -2,13 +2,14 @@ import {JsonGenDataSet} from "./JsonGenDataSet.ts";
 import {defineDefaultDataSets} from "./DefaultJsonGenValues.ts";
 import {JsonGenNode} from "../model/JsonGenNode";
 import {JsonGenFunction} from "./JsonGenFunction";
+import {JsonGenType} from "../model/JsonGenType";
 
 export class JsonGenContext {
 
     private parent: JsonGenContext = null
 
     private dataSets = new Map<string, JsonGenDataSet>()
-    private values = new Map<string, any>()
+    private values = new Map<string, JsonGenType>()
     private functions = new Map<string, JsonGenFunction>()
 
     constructor() {
@@ -36,7 +37,7 @@ export class JsonGenContext {
         }
 
         if (this.dataSets.has(identificator)) {
-            return this.dataSets.get(identificator).values(args)
+            return this.dataSets.get(identificator).json(this, args)
         }
 
         if (this.parent) {

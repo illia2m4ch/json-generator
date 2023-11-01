@@ -16,15 +16,11 @@ export class JsonGenValue extends JsonGenType {
     json(context: JsonGenContext): any {
         let result = context.get(this.identifier, this.args)
 
-        if (result instanceof Array) {
-            return JsonGenRandom.item(result)
-        }
-
         if (result instanceof JsonGenType) {
             return result.json(context)
         }
 
-        return null
+        return result
     }
 
 }
