@@ -1,12 +1,9 @@
 import {JsonGenContext} from "./JsonGenContext";
-import {JsonGenArray, JsonGenNode, JsonGenObject, JsonGenString} from "../model/JsonGenNode";
-import {JsonGenRangeValue} from "../model/JsonGenRangeValue";
-import {JsonGenRandom} from "../model/JsonGenRandom";
-import {JsonGenValue} from "../model/JsonGenValue";
+import {JsonGenArray, JsonGenPlaceholder, JsonGenString} from "../model/JsonGenNode";
 import {JsonGenType} from "../model/JsonGenType";
 
 export abstract class JsonGenFunction {
-    abstract execute(context: JsonGenContext, args: Map<string, any>)
+    abstract execute(context: JsonGenContext, args: Map<string, any>): JsonGenType
 }
 
 export class StringJsonGenFunction extends JsonGenFunction {
@@ -48,5 +45,11 @@ export class ShuffleJsonGenFunction extends JsonGenFunction {
         })
 
         return result
+    }
+}
+
+export class BooleanJsonGenFunction extends JsonGenFunction {
+    execute(context: JsonGenContext, args: Map<string, any>): JsonGenType {
+        return new JsonGenPlaceholder([true, false]);
     }
 }

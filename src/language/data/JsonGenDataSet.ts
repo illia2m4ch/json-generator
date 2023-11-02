@@ -1,8 +1,8 @@
-import {JsonGenType} from "../model/JsonGenType";
 import {JsonGenContext} from "./JsonGenContext";
-import {JsonGenRandom} from "../model/JsonGenRandom";
+import {JsonGenPlaceholder} from "../model/JsonGenNode";
+import {JsonGenFunction} from "./JsonGenFunction";
 
-export abstract class JsonGenDataSet extends JsonGenType {
+export abstract class JsonGenDataSet extends JsonGenFunction {
 
     protected readonly schema: object
 
@@ -11,14 +11,13 @@ export abstract class JsonGenDataSet extends JsonGenType {
         this.schema = json
     }
 
-    abstract json(context: JsonGenContext, args?: Map<string, any>)
-
 }
 
 export class EnumJsonGenDataSet extends JsonGenDataSet {
-    json(context: JsonGenContext): any {
+
+    override execute(context: JsonGenContext, args?: Map<string, any>): JsonGenPlaceholder<any> {
         if (this.schema instanceof Array) {
-            return JsonGenRandom.item(this.schema)
+            return new JsonGenPlaceholder(this.schema)
         }
         return null
     }
@@ -35,7 +34,7 @@ export class CategoryJsonGenDataSet extends JsonGenDataSet {
         this._defValue = defValue
     }
 
-    json(context: JsonGenContext, args?: Map<string, any>): any {
+    override execute(context: JsonGenContext, args?: Map<string, any>): JsonGenPlaceholder<any> {
         let value = args?.get(this._category)?.value() ?? this._defValue
 
         if (!this.schema[this._category]) {
@@ -45,7 +44,7 @@ export class CategoryJsonGenDataSet extends JsonGenDataSet {
         let values = (this.schema[this._category][value])
 
         if (values instanceof Array) {
-            return JsonGenRandom.item(values)
+            return new JsonGenPlaceholder<any>(values)
         }
 
         return null

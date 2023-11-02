@@ -1,4 +1,3 @@
-import {JsonGenRangeValue} from "./JsonGenRangeValue.ts";
 import {JsonGenValue} from "./JsonGenValue.ts";
 import {JsonGenRandom} from "./JsonGenRandom.ts";
 import {JsonGenContext} from "../data/JsonGenContext";
@@ -132,6 +131,6 @@ export class JsonGenPlaceholder<Item> extends JsonGenNode<Item> {
             return value.json(placeholderContext)
         }
 
-        return null
+        return value
     }
 }

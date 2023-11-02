@@ -16,7 +16,7 @@ export class JsonGenRandom {
             staticSize = this.number(size.from, size.to)
         }
 
-        if (staticSize === 0) {
+        if (staticSize === -1) {
             return arr
         }
 

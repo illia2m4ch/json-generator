@@ -1,6 +1,5 @@
 import {JsonGenType} from "./JsonGenType";
 import {JsonGenContext} from "../data/JsonGenContext";
-import {JsonGenRandom} from "./JsonGenRandom";
 
 export class JsonGenValue extends JsonGenType {
 
@@ -14,13 +13,7 @@ export class JsonGenValue extends JsonGenType {
     }
 
     json(context: JsonGenContext): any {
-        let result = context.get(this.identifier, this.args)
-
-        if (result instanceof JsonGenType) {
-            return result.json(context)
-        }
-
-        return result
+        return context.get(this.identifier, this.args)?.json(context)
     }
 
 }
