@@ -1,27 +1,21 @@
-import {JsonGenValue} from "./JsonGenValue.ts";
 import {JsonGenRandom} from "./JsonGenRandom.ts";
 import {JsonGenContext} from "../data/JsonGenContext";
 import {JsonGenType} from "./JsonGenType";
+import {JsonGenArgs} from "./JsonGenArgs";
 
 export abstract class JsonGenNode<Value> extends JsonGenType {
 
     private static VAL_OPTIONAL = 'optional'
     private static VAL_DEFAULT_OPTIONAL = 'defOptional'
 
-    protected attributes: Map<string, any> = new Map<string, any>()
+    protected args: JsonGenArgs = new JsonGenArgs()
 
-    setAttributes(attributes: Map<string, any>) {
-        this.attributes = attributes
+    setArgs(args: JsonGenArgs) {
+        this.args = args
     }
 
     isOptional(context: JsonGenContext) {
-        let isOptional = false
-        this.attributes.forEach(value => {
-            if (value instanceof JsonGenValue && value.identifier === JsonGenNode.VAL_OPTIONAL) {
-                isOptional = true
-            }
-        })
-        if (isOptional) {
+        if (this.args.hasMarker(JsonGenNode.VAL_OPTIONAL)) {
             return true
         }
         return context.get(JsonGenNode.VAL_DEFAULT_OPTIONAL).value()
@@ -29,7 +23,7 @@ export abstract class JsonGenNode<Value> extends JsonGenType {
 
     wrapContext(context: JsonGenContext) {
         let copy = context.child()
-        this.attributes.forEach((v, k) => copy.define(k, v))
+        this.args.forEach((v, k) => copy.define(k, v))
         return copy
     }
 
@@ -93,8 +87,8 @@ export class JsonGenArray<Item> extends StaticJsonGenNode<JsonGenNode<Item>[]> {
     private static VAL_DEFAULT_ARRAY_SIZE = 'defArraySize'
 
     attrSize(context: JsonGenContext) {
-        let size = this.attributes.get(JsonGenArray.ATTR_SIZE)
-        size = size ? size : this.attributes.get('0')
+        let size = this.args.get(JsonGenArray.ATTR_SIZE)
+        size = size ? size : this.args.get('0')
         return size ? size : context.get(JsonGenArray.VAL_DEFAULT_ARRAY_SIZE)
     }
 

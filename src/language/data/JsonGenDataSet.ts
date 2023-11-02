@@ -1,6 +1,7 @@
 import {JsonGenContext} from "./JsonGenContext";
 import {JsonGenPlaceholder} from "../model/JsonGenNode";
 import {JsonGenFunction} from "./JsonGenFunction";
+import {JsonGenArgs} from "../model/JsonGenArgs";
 
 export abstract class JsonGenDataSet extends JsonGenFunction {
 
@@ -15,7 +16,7 @@ export abstract class JsonGenDataSet extends JsonGenFunction {
 
 export class EnumJsonGenDataSet extends JsonGenDataSet {
 
-    override execute(context: JsonGenContext, args?: Map<string, any>): JsonGenPlaceholder<any> {
+    override execute(context: JsonGenContext, args?: JsonGenArgs): JsonGenPlaceholder<any> {
         if (this.schema instanceof Array) {
             return new JsonGenPlaceholder(this.schema)
         }
@@ -34,7 +35,7 @@ export class CategoryJsonGenDataSet extends JsonGenDataSet {
         this._defValue = defValue
     }
 
-    override execute(context: JsonGenContext, args?: Map<string, any>): JsonGenPlaceholder<any> {
+    override execute(context: JsonGenContext, args?: JsonGenArgs): JsonGenPlaceholder<any> {
         let value = args?.get(this._category)?.value() ?? this._defValue
 
         if (!this.schema[this._category]) {

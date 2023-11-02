@@ -1,15 +1,16 @@
 import {JsonGenType} from "./JsonGenType";
 import {JsonGenContext} from "../data/JsonGenContext";
+import {JsonGenArgs} from "./JsonGenArgs";
 
 export class JsonGenValue extends JsonGenType {
 
     readonly identifier: string
-    readonly args: Map<string, any>
+    readonly args: JsonGenArgs
 
-    constructor(identifier: string, args?: Map<string, any>) {
+    constructor(identifier: string, args?: JsonGenArgs) {
         super()
         this.identifier = identifier
-        this.args = args ? args : new Map<string, any>()
+        this.args = args ? args : new JsonGenArgs()
     }
 
     json(context: JsonGenContext): any {

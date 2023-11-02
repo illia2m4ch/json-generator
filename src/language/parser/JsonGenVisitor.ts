@@ -22,6 +22,7 @@ import {ParseTree} from "antlr4/src/antlr4/tree/ParseTree.ts";
 import {JsonGenRangeValue} from "../model/JsonGenRangeValue.ts";
 import {JsonGenValue} from "../model/JsonGenValue.ts";
 import {JsonGenType} from "../model/JsonGenType";
+import {JsonGenArgs} from "../model/JsonGenArgs";
 
 export class JsonGenVisitor extends JsonGenParserVisitor<any> {
 
@@ -123,14 +124,14 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
     override visitValue: (ctx: ValueContext) => JsonGenNode<any> = ctx => {
         let node = this.visitSimpleValue(ctx.simpleValue())
         if (ctx.args()) {
-            let attributes = this.visitArgs(ctx.args())
-            node.setAttributes(attributes)
+            let args = this.visitArgs(ctx.args())
+            node.setArgs(args)
         }
         return node
     }
 
-    override visitArgs: (ctx: ArgsContext) => Map<string, JsonGenType> = ctx => {
-        let args = new Map<string, JsonGenType>()
+    override visitArgs: (ctx: ArgsContext) => JsonGenArgs = ctx => {
+        let args = new JsonGenArgs()
         let index = 0
         ctx.arg_list().forEach(arg => {
             let result = this.visitArg(arg)

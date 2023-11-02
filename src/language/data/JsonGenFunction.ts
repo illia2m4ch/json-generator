@@ -1,13 +1,14 @@
 import {JsonGenContext} from "./JsonGenContext";
 import {JsonGenArray, JsonGenPlaceholder, JsonGenString} from "../model/JsonGenNode";
 import {JsonGenType} from "../model/JsonGenType";
+import {JsonGenArgs} from "../model/JsonGenArgs";
 
 export abstract class JsonGenFunction {
-    abstract execute(context: JsonGenContext, args: Map<string, any>): JsonGenType
+    abstract execute(context: JsonGenContext, args: JsonGenArgs): JsonGenType
 }
 
 export class StringJsonGenFunction extends JsonGenFunction {
-    override execute(context: JsonGenContext, args: Map<string, any>) {
+    override execute(context: JsonGenContext, args: JsonGenArgs) {
         let result = ""
         args.forEach(value => {
             if (value instanceof JsonGenType) {
@@ -25,7 +26,7 @@ export class StringJsonGenFunction extends JsonGenFunction {
 }
 
 export class ShuffleJsonGenFunction extends JsonGenFunction {
-    override execute(context: JsonGenContext, args: Map<string, any>) {
+    override execute(context: JsonGenContext, args: JsonGenArgs) {
         let result = null
         args?.forEach(value => {
             if (result) return
@@ -49,7 +50,7 @@ export class ShuffleJsonGenFunction extends JsonGenFunction {
 }
 
 export class BooleanJsonGenFunction extends JsonGenFunction {
-    execute(context: JsonGenContext, args: Map<string, any>): JsonGenType {
+    execute(context: JsonGenContext, args: JsonGenArgs): JsonGenType {
         return new JsonGenPlaceholder([true, false]);
     }
 }

@@ -1,6 +1,7 @@
 import {defineDefault} from "./DefaultJsonGenValues.ts";
 import {JsonGenFunction} from "./JsonGenFunction";
 import {JsonGenType} from "../model/JsonGenType";
+import {JsonGenArgs} from "../model/JsonGenArgs";
 
 export class JsonGenContext {
 
@@ -21,7 +22,7 @@ export class JsonGenContext {
         }
     }
 
-    get(id: string, args?: Map<string, any>): JsonGenType {
+    get(id: string, args?: JsonGenArgs): JsonGenType {
 
         if (this.values.has(id)) {
             return this.values.get(id)
