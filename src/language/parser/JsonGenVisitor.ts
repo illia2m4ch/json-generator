@@ -19,7 +19,7 @@ import {
     JsonGenString
 } from "../model/JsonGenNode.ts";
 import {ParseTree} from "antlr4/src/antlr4/tree/ParseTree.ts";
-import {JsonGenRangeValue} from "../model/JsonGenRangeValue.ts";
+import {JsonGenRange} from "../model/JsonGenRange.ts";
 import {JsonGenValue} from "../model/JsonGenValue.ts";
 import {JsonGenType} from "../model/JsonGenType";
 import {JsonGenArgs} from "../model/JsonGenArgs";
@@ -165,7 +165,7 @@ export class JsonGenVisitor extends JsonGenParserVisitor<any> {
             let index = value.indexOf('..')
             let from = +value.substring(0, index)
             let to = +value.substring(index + 2, value.length)
-            return new JsonGenRangeValue(from, to)
+            return new JsonGenRange(from, to)
         }
 
         if (parseTree = ctx.IDENTIFIER()) {

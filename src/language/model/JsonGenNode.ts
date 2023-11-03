@@ -1,7 +1,7 @@
-import {JsonGenRandom} from "./JsonGenRandom.ts";
 import {JsonGenContext} from "../data/JsonGenContext";
 import {JsonGenType} from "./JsonGenType";
 import {JsonGenArgs} from "./JsonGenArgs";
+import {JsonGenRange} from "./JsonGenRange";
 
 export abstract class JsonGenNode<Value> extends JsonGenType {
 
@@ -73,7 +73,7 @@ export class JsonGenObject extends StaticJsonGenNode<Map<string, JsonGenNode<any
         let objContext = this.wrapContext(context)
         let object = {}
         this.value().forEach((v, k) => {
-            if (!v.isOptional(objContext) || JsonGenRandom.boolean()) {
+            if (objContext.resolvePresent(v)) {
                 object[k] = v.json(objContext)
             }
         })
@@ -94,7 +94,7 @@ export class JsonGenArray<Item> extends StaticJsonGenNode<JsonGenNode<Item>[]> {
 
     json(context: JsonGenContext): any {
         let arrayContext = this.wrapContext(context)
-        return JsonGenRandom.items(this.value(), this.attrSize(arrayContext))
+        return arrayContext.resolveArray(this)
             .map((value, index) => {
                 let itemContext = arrayContext.child()
                 itemContext.define('index', new JsonGenNumber(index))
@@ -104,22 +104,11 @@ export class JsonGenArray<Item> extends StaticJsonGenNode<JsonGenNode<Item>[]> {
 
 }
 
-export class JsonGenPlaceholder<Item> extends JsonGenNode<Item> {
-
-    private readonly _values: Item[]
-    
-    constructor(values: Item[]) {
-        super()
-        this._values = values
-    }
-
-    value(): Item {
-        return JsonGenRandom.item(this._values)
-    }
+export class JsonGenPlaceholder<Item> extends StaticJsonGenNode<Item[]> {
 
     json(context: JsonGenContext): any {
         let placeholderContext = this.wrapContext(context)
-        let value = this.value()
+        let value = context.resolvePlaceholder(this)
 
         if (value instanceof JsonGenType) {
             return value.json(placeholderContext)

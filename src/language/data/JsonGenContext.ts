@@ -2,6 +2,9 @@ import {defineDefault} from "./DefaultJsonGenValues.ts";
 import {JsonGenFunction} from "./JsonGenFunction";
 import {JsonGenType} from "../model/JsonGenType";
 import {JsonGenArgs} from "../model/JsonGenArgs";
+import {JsonGenArray, JsonGenNode, JsonGenPlaceholder} from "../model/JsonGenNode";
+import {JsonGenRange} from "../model/JsonGenRange";
+import {JsonGenResolver, RandomJsonGenResolver} from "../model/JsonGenResolver";
 
 export class JsonGenContext {
 
@@ -10,8 +13,11 @@ export class JsonGenContext {
     private values = new Map<string, JsonGenType>()
     private functions = new Map<string, JsonGenFunction>()
 
-    constructor() {
+    private resolver: JsonGenResolver
+
+    constructor(resolver?: JsonGenResolver) {
         defineDefault(this)
+        this.resolver = resolver ?? new RandomJsonGenResolver()
     }
 
     define(id: string, value: any) {
@@ -37,6 +43,22 @@ export class JsonGenContext {
         }
 
         return null
+    }
+
+    resolvePresent(node: JsonGenNode<any>): boolean {
+        return !node.isOptional(this) || this.resolver.resolveBoolean()
+    }
+
+    resolveArray<Item>(array: JsonGenArray<Item>): JsonGenNode<Item>[] {
+        return this.resolver.resolveItems(array.value(), array.attrSize(this))
+    }
+
+    resolvePlaceholder<Item>(placeholder: JsonGenPlaceholder<Item>): Item {
+        return this.resolver.resolveItem(placeholder.value())
+    }
+
+    resolveRange(range: JsonGenRange): number {
+        return this.resolver.resolveNumber(range.from, range.to)
     }
 
     child() {
