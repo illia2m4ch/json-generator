@@ -1,4 +1,11 @@
-import {JsonGenArray, JsonGenNode, JsonGenNumber, JsonGenObject, JsonGenPlaceholder} from "./JsonGenNode";
+import {
+    JsonGenArray,
+    JsonGenNode,
+    JsonGenNumber,
+    JsonGenObject,
+    JsonGenPlaceholder,
+    JsonGenString
+} from "./JsonGenNode";
 import {JsonGenRange} from "./JsonGenRange";
 import {JsonGenValue} from "./JsonGenValue";
 import {JsonGenContext} from "../data/JsonGenContext";
@@ -6,13 +13,13 @@ import {JsonGenType} from "./JsonGenType";
 
 export abstract class JsonGenResolver {
 
-    static create(context: JsonGenContext, node: JsonGenNode<any>) {
+    static create(context: JsonGenContext) {
         let arg = context.get('resolver')
-        if (arg == null || !(arg instanceof JsonGenValue)) {
+        if (arg == null || !(arg instanceof JsonGenString)) {
             return null
         }
 
-        switch ((arg as JsonGenValue).identifier) {
+        switch ((arg as JsonGenString).value()) {
             case 'random': return new RandomJsonGenResolver()
             case 'iterator': return new IteratorJsonGenResolver(context) // only for array
         }

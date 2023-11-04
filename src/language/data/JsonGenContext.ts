@@ -23,9 +23,10 @@ export class JsonGenContext {
 
     private readonly _resolver: JsonGenResolver
 
-    constructor(node?: JsonGenNode<any>) {
+    protected constructor(parent?: JsonGenContext, node?: JsonGenNode<any>) {
+        this._parent = parent
         node?.args?.forEach((v, k) => this.define(k, v))
-        this._resolver = JsonGenResolver.create(this, node)
+        this._resolver = JsonGenResolver.create(this)
     }
 
     define(id: string, value: any) {
@@ -37,11 +38,10 @@ export class JsonGenContext {
     }
 
     get(id: string, args?: JsonGenArgs): JsonGenType {
-
         if (this.values.has(id)) {
             let value = this.values.get(id)
             if (value instanceof JsonGenValue) {
-                return this.get(value.identifier, args.isEmpty() ? value.args : args)
+                return this.get(value.identifier, args?.isEmpty() ? value.args : args)
             }
             return value
         }
@@ -50,7 +50,7 @@ export class JsonGenContext {
             return this.functions.get(id).execute(this, args)
         }
 
-        if (this._parent) {
+        if (this.parent()) {
             return this._parent.get(id, args)
         }
 
@@ -58,9 +58,7 @@ export class JsonGenContext {
     }
 
     child(node?: JsonGenNode<any>) {
-        let child = new JsonGenContext(node)
-        child._parent = this
-        return child
+        return new JsonGenContext(this, node)
     }
 
     resolver(): JsonGenResolver {

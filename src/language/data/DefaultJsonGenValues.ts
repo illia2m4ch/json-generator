@@ -1,7 +1,7 @@
 import {CategoryJsonGenDataSet} from "./JsonGenDataSet.ts";
 import {JsonGenContext} from "./JsonGenContext.ts";
 import nameJson from './name.json'
-import {JsonGenBoolean, JsonGenNumber} from "../model/JsonGenNode";
+import {JsonGenBoolean, JsonGenNumber, JsonGenString} from "../model/JsonGenNode";
 import {BooleanJsonGenFunction, ShuffleJsonGenFunction, StringJsonGenFunction} from "./JsonGenFunction";
 
 export function defineDefault(context: JsonGenContext) {
@@ -16,4 +16,8 @@ export function defineDefault(context: JsonGenContext) {
     context.define('string', new StringJsonGenFunction())
     context.define('shuffle', new ShuffleJsonGenFunction())
     context.define('boolean', new BooleanJsonGenFunction())
+
+    // resolvers
+    context.define('random', new JsonGenString('random'))
+    context.define('iterator', new JsonGenString('iterator'))
 }
