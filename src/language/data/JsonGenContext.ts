@@ -18,7 +18,7 @@ export class JsonGenContext {
 
     private _parent: JsonGenContext = null
 
-    private values = new Map<string, JsonGenType>()
+    private values = new Map<string, JsonGenType<any>>()
     private functions = new Map<string, JsonGenFunction>()
 
     private readonly _resolver: JsonGenResolver
@@ -37,7 +37,7 @@ export class JsonGenContext {
         }
     }
 
-    get(id: string, args?: JsonGenArgs): JsonGenType {
+    get(id: string, args?: JsonGenArgs): JsonGenType<any> {
         if (this.values.has(id)) {
             let value = this.values.get(id)
             if (value instanceof JsonGenValue) {

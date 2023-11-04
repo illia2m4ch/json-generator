@@ -99,7 +99,7 @@ export class IteratorJsonGenResolver extends JsonGenResolver {
         return from + Math.floor(Math.random() * (to + 1 - from))
     }
 
-    private nodeVariants(type: JsonGenType): JsonGenNode<any>[] {
+    private nodeVariants(type: JsonGenType<any>): JsonGenNode<any>[] {
         let result = []
 
         if (type instanceof JsonGenNode && type.isStatic()) {

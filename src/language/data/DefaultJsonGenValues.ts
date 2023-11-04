@@ -1,5 +1,5 @@
-import {CategoryJsonGenDataSet} from "./JsonGenDataSet.ts";
-import {JsonGenContext} from "./JsonGenContext.ts";
+import {CategoryJsonGenDataSet} from "./JsonGenDataSet";
+import {JsonGenContext} from "./JsonGenContext";
 import nameJson from './name.json'
 import {JsonGenBoolean, JsonGenNumber, JsonGenString} from "../model/JsonGenNode";
 import {BooleanJsonGenFunction, ShuffleJsonGenFunction, StringJsonGenFunction} from "./JsonGenFunction";

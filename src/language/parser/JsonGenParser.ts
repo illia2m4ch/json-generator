@@ -1,6 +1,6 @@
 import {CharStream, CommonTokenStream, ErrorListener, Lexer, Token} from "antlr4";
-import JsonGenLexer from "../core/JsonGenLexer.ts"
-import JsonGenParser from "../core/JsonGenParser.ts";
+import JsonGenLexer from "../core/JsonGenLexer"
+import JsonGenParser from "../core/JsonGenParser";
 
 class ConsoleErrorListener extends ErrorListener<Token> {
     syntaxError(recognizer, offendingSymbol, line, column, msg, e) {

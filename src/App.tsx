@@ -1,15 +1,15 @@
 import './App.css'
 import React from 'react'
-import Editor from '@monaco-editor/react'
-import * as JsonGenTokensProvider from '../src/language/parser/JsonGenTokensProvider.ts'
-import {IteratorJsonGenResolver} from "./language/model/JsonGenResolver";
+import * as JsonGenTokensProvider from '../src/language/parser/JsonGenTokensProvider'
 import {JsonGen} from "./language/model/JsonGen";
+import {Editor, Monaco} from '@monaco-editor/react';
+import {languages} from 'monaco-editor'
 
-function initMonaco(monaco) {
+function initMonaco(monaco: Monaco) {
   monaco.languages.register({ id: 'jsonGen' })
   monaco.languages.setTokensProvider('jsonGen', new JsonGenTokensProvider.JsonGenTokensProvider())
 
-  const config = {
+  const config: languages.LanguageConfiguration = {
     'brackets': [
       ['{', '}'],
       ['[', ']'],
@@ -25,8 +25,8 @@ function initMonaco(monaco) {
       { 'open': '"', 'close': '"', 'notIn': ['STRING'] }
     ],
     'indentationRules': {
-      'increaseIndentPattern': '({+(?=((\\\\.|[^\'\\\\])*\'(\\\\.|[^\'\\\\])*\')*[^\'}]*)$)|(\\[+(?=((\\\\.|[^\'\\\\])*\'(\\\\.|[^\'\\\\])*\')*[^\'\\]]*)$)',
-      'decreaseIndentPattern': '^\\s*[}\\]],?\\s*$'
+      'increaseIndentPattern': new RegExp('({+(?=((\\\\.|[^\'\\\\])*\'(\\\\.|[^\'\\\\])*\')*[^\'}]*)$)|(\\[+(?=((\\\\.|[^\'\\\\])*\'(\\\\.|[^\'\\\\])*\')*[^\'\\]]*)$)'),
+      'decreaseIndentPattern': new RegExp('^\\s*[}\\]],?\\s*$')
     }
   }
   monaco.languages.setLanguageConfiguration('jsonGen', config)
@@ -72,7 +72,7 @@ function initMonaco(monaco) {
 
 let jsonGen = new JsonGen()
 
-function onEditorChange(value, event) {
+function onEditorChange(value: string) {
   try {
     console.log(jsonGen.generate(value))
   } catch (e) {

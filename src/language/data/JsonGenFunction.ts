@@ -5,7 +5,7 @@ import {JsonGenArgs} from "../model/JsonGenArgs";
 import {JsonGenValue} from "../model/JsonGenValue";
 
 export abstract class JsonGenFunction {
-    abstract execute(context: JsonGenContext, args: JsonGenArgs): JsonGenType
+    abstract execute(context: JsonGenContext, args: JsonGenArgs): JsonGenType<any>
 }
 
 export class StringJsonGenFunction extends JsonGenFunction {
@@ -57,7 +57,7 @@ export class ShuffleJsonGenFunction extends JsonGenFunction {
 }
 
 export class BooleanJsonGenFunction extends JsonGenFunction {
-    execute(context: JsonGenContext, args: JsonGenArgs): JsonGenType {
+    execute(context: JsonGenContext, args: JsonGenArgs): JsonGenType<any> {
         return new JsonGenPlaceholder([true, false]);
     }
 }

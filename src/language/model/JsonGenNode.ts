@@ -2,19 +2,12 @@ import {JsonGenContext} from "../data/JsonGenContext";
 import {JsonGenType} from "./JsonGenType";
 import {JsonGenArgs} from "./JsonGenArgs";
 
-export abstract class JsonGenNode<Value> extends JsonGenType {
+export abstract class JsonGenNode<Value> extends JsonGenType<Value> {
 
     private static VAL_OPTIONAL = 'optional'
     private static VAL_DEFAULT_OPTIONAL = 'defOptional'
 
-    private readonly _value: Value
-
     public args: JsonGenArgs = new JsonGenArgs()
-
-    protected constructor(value: Value) {
-        super()
-        this._value = value
-    }
 
     setArgs(args: JsonGenArgs) {
         this.args = args
@@ -29,18 +22,6 @@ export abstract class JsonGenNode<Value> extends JsonGenType {
 
     wrapContext(context: JsonGenContext) {
         return context.child(this)
-    }
-
-    value() {
-        return this._value
-    }
-
-    isStatic(): boolean {
-        return true;
-    }
-
-    json(context: JsonGenContext): any {
-        return this.value()
     }
 
 }

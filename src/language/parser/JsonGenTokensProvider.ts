@@ -2,7 +2,7 @@ import {Token, ErrorListener} from 'antlr4'
 import * as monaco from 'monaco-editor'
 import ILineTokens = monaco.languages.ILineTokens
 import IToken = monaco.languages.IToken
-import {createLexer} from "./JsonGenParser.ts"
+import {createLexer} from "./JsonGenParser"
 
 export class JsonGenState implements monaco.languages.IState {
     clone(): monaco.languages.IState {

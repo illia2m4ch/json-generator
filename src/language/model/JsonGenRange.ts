@@ -1,13 +1,13 @@
 import {JsonGenType} from "./JsonGenType";
 import {JsonGenContext} from "../data/JsonGenContext";
 
-export class JsonGenRange extends JsonGenType {
+export class JsonGenRange extends JsonGenType<[number, number]> {
 
     readonly from: number
     readonly to: number
 
     constructor(from: number, to: number) {
-        super()
+        super([from, to])
         this.from = from
         this.to = to
     }
