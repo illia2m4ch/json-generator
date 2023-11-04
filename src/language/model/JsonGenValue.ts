@@ -17,4 +17,8 @@ export class JsonGenValue extends JsonGenType {
         return context.get(this.identifier, this.args)?.json(context)
     }
 
+    isStatic(): boolean {
+        return false;
+    }
+
 }

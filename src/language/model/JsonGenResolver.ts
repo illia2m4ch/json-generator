@@ -37,7 +37,7 @@ export abstract class JsonGenResolver {
             staticSize = this.resolveNumber(size.from, size.to)
         }
 
-        if (staticSize === -1) {
+        if (staticSize < 0) {
             return arr
         }
 

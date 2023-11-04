@@ -1,18 +1,20 @@
-import {defineDefault} from "./DefaultJsonGenValues.ts";
+import {defineDefault} from "./DefaultJsonGenValues";
 import {JsonGenFunction} from "./JsonGenFunction";
 import {JsonGenType} from "../model/JsonGenType";
 import {JsonGenArgs} from "../model/JsonGenArgs";
-import {
-    DefaultJsonGenResolver,
-    jsonGenResolver,
-    JsonGenResolver,
-    RandomJsonGenResolver
-} from "../model/JsonGenResolver";
+import {jsonGenResolver, JsonGenResolver} from "../model/JsonGenResolver";
 import {JsonGenNode} from "../model/JsonGenNode";
+import {JsonGenValue} from "../model/JsonGenValue";
 
 export class JsonGenContext {
 
-    static readonly Root = new JsonGenContext()
+    private static createRoot() {
+        let root = new JsonGenContext()
+        defineDefault(root)
+        return root
+    }
+
+    static readonly Root = JsonGenContext.createRoot()
 
     private _parent: JsonGenContext = null
 
@@ -22,7 +24,6 @@ export class JsonGenContext {
     private readonly _resolver: JsonGenResolver
 
     constructor(node?: JsonGenNode<any>) {
-        defineDefault(this)
         node?.args?.forEach((v, k) => this.define(k, v))
         this._resolver = JsonGenResolver.create(this, node)
     }
@@ -38,7 +39,11 @@ export class JsonGenContext {
     get(id: string, args?: JsonGenArgs): JsonGenType {
 
         if (this.values.has(id)) {
-            return this.values.get(id)
+            let value = this.values.get(id)
+            if (value instanceof JsonGenValue) {
+                return this.get(value.identifier, args.isEmpty() ? value.args : args)
+            }
+            return value
         }
 
         if (this.functions.has(id)) {

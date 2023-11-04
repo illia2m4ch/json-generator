@@ -29,10 +29,8 @@ export class JsonGenArgs {
         }
     }
 
-    copy() {
-        let copy = new JsonGenArgs()
-        this.args.forEach((v, k) => copy.set(k, v))
-        return copy
+    isEmpty() {
+        return this.args.size === 0
     }
 
 }

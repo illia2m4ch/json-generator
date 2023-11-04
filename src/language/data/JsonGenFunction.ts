@@ -2,6 +2,7 @@ import {JsonGenContext} from "./JsonGenContext";
 import {JsonGenArray, JsonGenPlaceholder, JsonGenString} from "../model/JsonGenNode";
 import {JsonGenType} from "../model/JsonGenType";
 import {JsonGenArgs} from "../model/JsonGenArgs";
+import {JsonGenValue} from "../model/JsonGenValue";
 
 export abstract class JsonGenFunction {
     abstract execute(context: JsonGenContext, args: JsonGenArgs): JsonGenType
@@ -41,6 +42,12 @@ export class ShuffleJsonGenFunction extends JsonGenFunction {
                 let arrayValue = value.value()
                 let shuffled = Array.from(arrayValue).sort(() => Math.random() - .5)
                 result = new JsonGenArray(shuffled)
+            }
+
+            if (value instanceof JsonGenValue) {
+                let args = new JsonGenArgs()
+                args.set('0', context.get(value.identifier, value.args))
+                result = this.execute(context, args)
             }
 
         })
