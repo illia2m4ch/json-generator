@@ -12,8 +12,12 @@ export class JsonGenRange extends JsonGenType {
         this.to = to
     }
 
-    json(context: JsonGenContext): number {
-        return context.resolveRange(this)
+    json(context: JsonGenContext) {
+        return context.resolver().resolveNumber(this.from, this.to)
+    }
+
+    isStatic(): boolean {
+        return false;
     }
 
 }

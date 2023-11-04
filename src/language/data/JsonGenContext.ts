@@ -2,22 +2,29 @@ import {defineDefault} from "./DefaultJsonGenValues.ts";
 import {JsonGenFunction} from "./JsonGenFunction";
 import {JsonGenType} from "../model/JsonGenType";
 import {JsonGenArgs} from "../model/JsonGenArgs";
-import {JsonGenArray, JsonGenNode, JsonGenPlaceholder} from "../model/JsonGenNode";
-import {JsonGenRange} from "../model/JsonGenRange";
-import {JsonGenResolver, RandomJsonGenResolver} from "../model/JsonGenResolver";
+import {
+    DefaultJsonGenResolver,
+    jsonGenResolver,
+    JsonGenResolver,
+    RandomJsonGenResolver
+} from "../model/JsonGenResolver";
+import {JsonGenNode} from "../model/JsonGenNode";
 
 export class JsonGenContext {
 
-    private parent: JsonGenContext = null
+    static readonly Root = new JsonGenContext()
+
+    private _parent: JsonGenContext = null
 
     private values = new Map<string, JsonGenType>()
     private functions = new Map<string, JsonGenFunction>()
 
-    private resolver: JsonGenResolver
+    private readonly _resolver: JsonGenResolver
 
-    constructor(resolver?: JsonGenResolver) {
+    constructor(node?: JsonGenNode<any>) {
         defineDefault(this)
-        this.resolver = resolver ?? new RandomJsonGenResolver()
+        node?.args?.forEach((v, k) => this.define(k, v))
+        this._resolver = JsonGenResolver.create(this, node)
     }
 
     define(id: string, value: any) {
@@ -38,33 +45,25 @@ export class JsonGenContext {
             return this.functions.get(id).execute(this, args)
         }
 
-        if (this.parent) {
-            return this.parent.get(id, args)
+        if (this._parent) {
+            return this._parent.get(id, args)
         }
 
         return null
     }
 
-    resolvePresent(node: JsonGenNode<any>): boolean {
-        return !node.isOptional(this) || this.resolver.resolveBoolean()
-    }
-
-    resolveArray<Item>(array: JsonGenArray<Item>): JsonGenNode<Item>[] {
-        return this.resolver.resolveItems(array.value(), array.attrSize(this))
-    }
-
-    resolvePlaceholder<Item>(placeholder: JsonGenPlaceholder<Item>): Item {
-        return this.resolver.resolveItem(placeholder.value())
-    }
-
-    resolveRange(range: JsonGenRange): number {
-        return this.resolver.resolveNumber(range.from, range.to)
-    }
-
-    child() {
-        let child = new JsonGenContext()
-        child.parent = this
+    child(node?: JsonGenNode<any>) {
+        let child = new JsonGenContext(node)
+        child._parent = this
         return child
+    }
+
+    resolver(): JsonGenResolver {
+        return this._resolver ?? jsonGenResolver(this._parent?._resolver)
+    }
+
+    parent() {
+        return this._parent
     }
 
 }
