@@ -1,13 +1,13 @@
 import './App.css'
 import React from 'react'
-import {JsonGen} from "./jsongen/parser/JsonGen";
+import {Genson} from "./genson/parser/Genson";
 import {Editor, Monaco} from '@monaco-editor/react';
 import {languages} from 'monaco-editor'
-import {JsonGenTokensProvider} from "./jsongen/parser/JsonGenTokensProvider";
+import {GensonTokensProvider} from "./genson/parser/GensonTokensProvider";
 
 function initMonaco(monaco: Monaco) {
-  monaco.languages.register({ id: 'jsonGen' })
-  monaco.languages.setTokensProvider('jsonGen', new JsonGenTokensProvider())
+  monaco.languages.register({ id: 'genson' })
+  monaco.languages.setTokensProvider('genson', new GensonTokensProvider())
 
   const config: languages.LanguageConfiguration = {
     'brackets': [
@@ -29,7 +29,7 @@ function initMonaco(monaco: Monaco) {
       'decreaseIndentPattern': new RegExp('^\\s*[}\\]],?\\s*$')
     }
   }
-  monaco.languages.setLanguageConfiguration('jsonGen', config)
+  monaco.languages.setLanguageConfiguration('genson', config)
 
   let commonFg = 'ffffff'
   let argumentsFg = '979797'
@@ -37,7 +37,7 @@ function initMonaco(monaco: Monaco) {
   let valueFg = 'FFE27B'
   let identifierFg = '9278A7'
 
-  monaco.editor.defineTheme('jsonGenTheme', {
+  monaco.editor.defineTheme('gensonTheme', {
     base: 'vs-dark',
     inherit: true,
     colors: {
@@ -70,11 +70,11 @@ function initMonaco(monaco: Monaco) {
   })
 }
 
-let jsonGen = new JsonGen()
+let genson = new Genson()
 
 function onEditorChange(value: string) {
   try {
-    console.log(jsonGen.generate(value))
+    console.log(genson.generate(value))
   } catch (e) {
     console.error(e)
   }
@@ -83,8 +83,8 @@ function onEditorChange(value: string) {
 function App() {
   return <Editor
       height='90vh'
-      theme='jsonGenTheme'
-      defaultLanguage='jsonGen'
+      theme='gensonTheme'
+      defaultLanguage='genson'
       defaultValue={
 `{
     "items": [
