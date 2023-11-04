@@ -1,5 +1,3 @@
-import {JsonGenContext} from "../data/JsonGenContext";
-
 export abstract class JsonGenType<Value> {
 
     private readonly _value: Value
@@ -12,11 +10,7 @@ export abstract class JsonGenType<Value> {
         return this._value
     }
 
-    json(context: JsonGenContext): any {
-        return this.value()
-    }
-
-    isStatic(): boolean {
+    isPrimitive(): boolean {
         return true;
     }
 

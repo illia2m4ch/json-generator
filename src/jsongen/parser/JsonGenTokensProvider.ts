@@ -2,7 +2,7 @@ import {Token, ErrorListener} from 'antlr4'
 import * as monaco from 'monaco-editor'
 import ILineTokens = monaco.languages.ILineTokens
 import IToken = monaco.languages.IToken
-import {createLexer} from "./JsonGenParser"
+import {createLexer} from "./JsonGenParserHelper"
 
 export class JsonGenState implements monaco.languages.IState {
     clone(): monaco.languages.IState {
@@ -82,7 +82,7 @@ export function tokensForLine(input: string): monaco.languages.ILineTokens {
 
     // Add all errors
     for (let e of errorStartingPoints) {
-        myTokens.push(new JsonGenToken("error.json-gen", e))
+        myTokens.push(new JsonGenToken("error.jsongen", e))
     }
     myTokens.sort((a, b) => (a.startIndex > b.startIndex) ? 1 : -1)
 

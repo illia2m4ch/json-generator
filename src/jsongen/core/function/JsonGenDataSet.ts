@@ -1,7 +1,8 @@
-import {JsonGenContext} from "./JsonGenContext";
-import {JsonGenPlaceholder} from "../model/JsonGenNode";
+import {JsonGenContext} from "../context/JsonGenContext";
 import {JsonGenFunction} from "./JsonGenFunction";
-import {JsonGenArgs} from "../model/JsonGenArgs";
+import {JsonGenArgs} from "../args/JsonGenArgs";
+
+import {JsonGenPlaceholder} from "../type/implementation/JsonGenPlaceholder";
 
 export abstract class JsonGenDataSet extends JsonGenFunction {
 

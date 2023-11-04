@@ -1,11 +1,11 @@
-import {JsonGenValue} from "./JsonGenValue";
-import {JsonGenNode} from "./JsonGenNode";
+import {JsonGenValue} from "../type/implementation/JsonGenValue";
+import {JsonGenType} from "../type/abstract/JsonGenType";
 
 export class JsonGenArgs {
 
-    private args: Map<string, any> = new Map<string, any>()
+    private args: Map<string, JsonGenType<any>> = new Map<string, JsonGenType<any>>()
 
-    set(name: string, value: any) {
+    set(name: string, value: JsonGenType<any>) {
         this.args.set(name, value)
     }
 

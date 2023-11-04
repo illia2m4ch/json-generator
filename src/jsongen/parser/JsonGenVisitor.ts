@@ -1,4 +1,4 @@
-import JsonGenParserVisitor from "../core/JsonGenParserVisitor";
+import JsonGenParserVisitor from "../build/JsonGenParserVisitor";
 import {
     ArgContext,
     ArgsContext,
@@ -8,21 +8,24 @@ import {
     PairContext, ParameterValueContext,
     PlaceholderContext, PlaceholderValueContext,
     SimpleValueContext, ValueContext
-} from "../core/JsonGenParser";
+} from "../build/JsonGenParser";
 import {
-    JsonGenArray,
-    JsonGenBoolean,
-    JsonGenNode,
-    JsonGenNull,
-    JsonGenNumber, JsonGenObject,
-    JsonGenPlaceholder,
-    JsonGenString
-} from "../model/JsonGenNode";
+    JsonGenNode
+} from "../core/type/abstract/JsonGenNode";
 import {ParseTree} from "antlr4/src/antlr4/tree/ParseTree";
-import {JsonGenRange} from "../model/JsonGenRange";
-import {JsonGenValue} from "../model/JsonGenValue";
-import {JsonGenType} from "../model/JsonGenType";
-import {JsonGenArgs} from "../model/JsonGenArgs";
+import {JsonGenRange} from "../core/type/implementation/JsonGenRange";
+import {JsonGenValue} from "../core/type/implementation/JsonGenValue";
+import {JsonGenType} from "../core/type/abstract/JsonGenType";
+import {JsonGenArgs} from "../core/args/JsonGenArgs";
+import {
+    JsonGenNull
+} from "../core/type/implementation/JsonGenNull";
+import {JsonGenBoolean} from "../core/type/implementation/JsonGenBoolean";
+import {JsonGenNumber} from "../core/type/implementation/JsonGenNumber";
+import {JsonGenString} from "../core/type/implementation/JsonGenString";
+import {JsonGenObject} from "../core/type/implementation/JsonGenObject";
+import {JsonGenArray} from "../core/type/implementation/JsonGenArray";
+import {JsonGenPlaceholder} from "../core/type/implementation/JsonGenPlaceholder";
 
 export class JsonGenVisitor extends JsonGenParserVisitor<any> {
 

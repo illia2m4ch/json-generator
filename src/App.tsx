@@ -1,13 +1,13 @@
 import './App.css'
 import React from 'react'
-import * as JsonGenTokensProvider from '../src/language/parser/JsonGenTokensProvider'
-import {JsonGen} from "./language/model/JsonGen";
+import {JsonGen} from "./jsongen/parser/JsonGen";
 import {Editor, Monaco} from '@monaco-editor/react';
 import {languages} from 'monaco-editor'
+import {JsonGenTokensProvider} from "./jsongen/parser/JsonGenTokensProvider";
 
 function initMonaco(monaco: Monaco) {
   monaco.languages.register({ id: 'jsonGen' })
-  monaco.languages.setTokensProvider('jsonGen', new JsonGenTokensProvider.JsonGenTokensProvider())
+  monaco.languages.setTokensProvider('jsonGen', new JsonGenTokensProvider())
 
   const config: languages.LanguageConfiguration = {
     'brackets': [

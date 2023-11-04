@@ -1,6 +1,6 @@
 import {CharStream, CommonTokenStream, ErrorListener, Lexer, Token} from "antlr4";
-import JsonGenLexer from "../core/JsonGenLexer"
-import JsonGenParser from "../core/JsonGenParser";
+import JsonGenLexer from "../build/JsonGenLexer"
+import JsonGenParser from "../build/JsonGenParser";
 
 class ConsoleErrorListener extends ErrorListener<Token> {
     syntaxError(recognizer, offendingSymbol, line, column, msg, e) {
@@ -9,8 +9,7 @@ class ConsoleErrorListener extends ErrorListener<Token> {
 }
 
 export function createLexer(input: string) {
-    const chars = new CharStream(input);
-    return new JsonGenLexer(chars);
+    return new JsonGenLexer(new CharStream(input));
 }
 
 export function getTokens(input: string): Token[] {

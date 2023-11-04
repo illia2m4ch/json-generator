@@ -1,6 +1,5 @@
-import {JsonGenType} from "./JsonGenType";
-import {JsonGenContext} from "../data/JsonGenContext";
-import {JsonGenArgs} from "./JsonGenArgs";
+import {JsonGenType} from "../abstract/JsonGenType";
+import {JsonGenArgs} from "../../args/JsonGenArgs";
 
 export class JsonGenValue extends JsonGenType<[string, JsonGenArgs]> {
 
@@ -13,11 +12,7 @@ export class JsonGenValue extends JsonGenType<[string, JsonGenArgs]> {
         this.args = args ? args : new JsonGenArgs()
     }
 
-    json(context: JsonGenContext): any {
-        return context.get(this.identifier, this.args)?.json(context)
-    }
-
-    isStatic(): boolean {
+    isPrimitive(): boolean {
         return false;
     }
 

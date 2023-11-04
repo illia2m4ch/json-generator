@@ -1,32 +1,32 @@
-import {defineDefault} from "./DefaultJsonGenValues";
-import {JsonGenFunction} from "./JsonGenFunction";
-import {JsonGenType} from "../model/JsonGenType";
-import {JsonGenArgs} from "../model/JsonGenArgs";
-import {jsonGenResolver, JsonGenResolver} from "../model/JsonGenResolver";
-import {JsonGenNode} from "../model/JsonGenNode";
-import {JsonGenValue} from "../model/JsonGenValue";
+import {JsonGenFunction} from "../function/JsonGenFunction";
+import {JsonGenType} from "../type/abstract/JsonGenType";
+import {JsonGenArgs} from "../args/JsonGenArgs";
+import {JsonGenResolver} from "../resolver/JsonGenResolver";
+import {JsonGenNode} from "../type/abstract/JsonGenNode";
+import {JsonGenValue} from "../type/implementation/JsonGenValue";
+import {JsonGenConfig} from "../config/JsonGenConfig";
 
 export class JsonGenContext {
 
-    private static createRoot() {
-        let root = new JsonGenContext()
-        defineDefault(root)
-        return root
+    static create(config: JsonGenConfig) {
+        let context = new JsonGenContext(config, null, null)
+        config.init(context)
+        return context
     }
 
-    static readonly Root = JsonGenContext.createRoot()
-
-    private _parent: JsonGenContext = null
+    private readonly _parent: JsonGenContext = null
 
     private values = new Map<string, JsonGenType<any>>()
     private functions = new Map<string, JsonGenFunction>()
 
+    private readonly _config: JsonGenConfig
     private readonly _resolver: JsonGenResolver
 
-    protected constructor(parent?: JsonGenContext, node?: JsonGenNode<any>) {
+    protected constructor(config: JsonGenConfig, parent?: JsonGenContext, node?: JsonGenNode<any>) {
+        this._config = config
         this._parent = parent
         node?.args?.forEach((v, k) => this.define(k, v))
-        this._resolver = JsonGenResolver.create(this)
+        this._resolver = config.createResolver(this) ?? parent?._resolver ?? config.defaultResolver(this)
     }
 
     define(id: string, value: any) {
@@ -57,12 +57,16 @@ export class JsonGenContext {
         return null
     }
 
-    child(node?: JsonGenNode<any>) {
-        return new JsonGenContext(this, node)
+    child(node: JsonGenNode<any>) {
+        return new JsonGenContext(this._config, this, node)
     }
 
     resolver(): JsonGenResolver {
-        return this._resolver ?? jsonGenResolver(this._parent?._resolver)
+        return this._resolver
+    }
+
+    resolve(type: JsonGenType<any>) {
+        return this.resolver().resolve(this, type)
     }
 
     parent() {

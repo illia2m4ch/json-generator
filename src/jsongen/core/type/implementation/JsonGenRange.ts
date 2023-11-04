@@ -1,5 +1,5 @@
-import {JsonGenType} from "./JsonGenType";
-import {JsonGenContext} from "../data/JsonGenContext";
+import {JsonGenType} from "../abstract/JsonGenType";
+import {JsonGenContext} from "../../context/JsonGenContext";
 
 export class JsonGenRange extends JsonGenType<[number, number]> {
 
@@ -12,11 +12,7 @@ export class JsonGenRange extends JsonGenType<[number, number]> {
         this.to = to
     }
 
-    json(context: JsonGenContext) {
-        return context.resolver().resolveNumber(this.from, this.to)
-    }
-
-    isStatic(): boolean {
+    isPrimitive(): boolean {
         return false;
     }
 
