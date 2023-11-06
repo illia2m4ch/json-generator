@@ -7,21 +7,10 @@ import {GensonObject} from "../../core/type/implementation/GensonObject";
 import {GensonResolver} from "../../core/resolver/GensonResolver";
 import { GensonValue } from "../../core/type/implementation/GensonValue";
 import {GensonNodeWrapper} from "../../core/type/implementation/GensonNodeWrapper";
+import {IteratorGensonResolver} from "./IteratorGensonResolver";
+import {GensonNode} from "../../core/type/abstract/GensonNode";
 
-export class VariantsGensonResolver extends GensonResolver {
-
-    protected resolvePlaceholder(context: GensonContext, type: GensonPlaceholder<any>) {
-        let result: any[] = []
-        type.value().forEach(item => {
-            if (item instanceof GensonType) {
-                let itemVariants = this.makeArray(this.resolve(context, item))
-                result.push(...itemVariants)
-            } else {
-                result.push(item)
-            }
-        })
-        return result
-    }
+export class VariantsGensonResolver extends IteratorGensonResolver {
 
     protected resolveArray(context: GensonContext, type: GensonArray<any>) {
         let result = []
@@ -33,12 +22,13 @@ export class VariantsGensonResolver extends GensonResolver {
                 continue
             }
 
-            let itemVariants = this.makeArray(this.resolve(context, value))
+            let itemVariants = this.wrapResult(this.resolve(context, value))
             let arrayVariants = itemVariants.map(itemVariant => {
                 let items = [...type.value()]
                 items[index] = new GensonNodeWrapper(itemVariant)
-                // TODO set args
-                return this.makeArray(this.resolve(context, new GensonArray(items)))
+                let copy = new GensonArray(items)
+                copy.args = type.args
+                return this.wrapResult(this.resolve(context, copy))
             })
 
             arrayVariants.forEach(value => {
@@ -62,17 +52,18 @@ export class VariantsGensonResolver extends GensonResolver {
     protected resolveObject(context: GensonContext, type: GensonObject) {
         let result = []
 
-        for (const [key, value] of type.value()) {
-            if (value.isPrimitive()) {
+        for (const [name, property] of type.value()) {
+            if (property.isPrimitive()) {
                 continue
             }
 
-            let propertyVariants = this.makeArray(this.resolve(context, value))
+            let propertyVariants = this.wrapResult(this.resolve(context, property))
             let objectVariants = propertyVariants.map(propertyVariant => {
                 let properties = new Map(type.value())
-                properties.set(key, new GensonNodeWrapper(propertyVariant))
-                // TODO set args
-                return this.makeArray(this.resolve(context, new GensonObject(properties)))
+                properties.set(name, new GensonNodeWrapper(propertyVariant))
+                let copy = new GensonObject(properties)
+                copy.args = type.args
+                return this.wrapResult(this.resolve(context, copy))
             })
 
             objectVariants.forEach(value => {
@@ -92,27 +83,8 @@ export class VariantsGensonResolver extends GensonResolver {
         return result
     }
 
-    protected resolveValue(context: GensonContext, type: GensonValue) {
-        return this.resolve(context, context.get(type.identifier, type.args))
-    }
-
-    protected resolveRange(context: GensonContext, type: GensonRange) {
-        let result: number[] = []
-        for (let i = type.from; i <= type.to; i++) {
-            result.push(i)
-        }
-        return result
-    }
-
     protected resolveOther(context: GensonContext, type: GensonType<any>) {
         return type.value()
-    }
-
-    private makeArray(value: any) {
-        if (value instanceof Array) {
-            return value
-        }
-        return [value]
     }
 
 }

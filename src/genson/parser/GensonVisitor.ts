@@ -128,7 +128,7 @@ export class GensonVisitor extends GensonParserVisitor<any> {
         let node = this.visitSimpleValue(ctx.simpleValue())
         if (ctx.args()) {
             let args = this.visitArgs(ctx.args())
-            node.setArgs(args)
+            node.args = args
         }
         return node
     }

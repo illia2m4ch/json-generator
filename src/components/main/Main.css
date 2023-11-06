@@ -1,0 +1,15 @@
+.main-container {
+    width: 100%;
+    display: flex;
+}
+
+.main-item {
+    flex: 1;
+}
+
+.main-divider {
+    width: 20px;
+    padding: 0;
+    cursor: ew-resize;
+    flex: 0 0 auto;
+}

@@ -11,6 +11,7 @@ import {GensonString} from "../../core/type/implementation/GensonString";
 import {RandomGensonResolver} from "../resolver/RandomGensonResolver";
 import {VariantsGensonResolver} from "../resolver/VariantsGensonResolver";
 import {GensonResolver} from "../../core/resolver/GensonResolver";
+import {IteratorGensonResolver} from "../resolver/IteratorGensonResolver";
 
 export class DefaultGensonConfig extends GensonConfig {
 
@@ -36,7 +37,8 @@ export class DefaultGensonConfig extends GensonConfig {
 
         switch ((arg as GensonString).value()) {
             case 'random': return new RandomGensonResolver()
-            case 'variants': return new VariantsGensonResolver() // only for array
+            case 'variants': return new VariantsGensonResolver()
+            case 'iterator': return new IteratorGensonResolver()
         }
     }
 

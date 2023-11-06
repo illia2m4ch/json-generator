@@ -10,9 +10,13 @@ export class Genson {
     private context = GensonContext.create(this.config)
 
     generate(value: string) {
-        let node = this.visitor.visitGenson(parseTree(value))
-        let json = this.context.resolve(node)
-        return JSON.stringify(json, null, 2)
+        try {
+            let node = this.visitor.visitGenson(parseTree(value))
+            let json = this.context.resolve(node)
+            return JSON.stringify(json, null, 2)
+        } catch (e) {
+            return ""
+        }
     }
 
 }

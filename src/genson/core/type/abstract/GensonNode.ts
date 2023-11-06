@@ -9,10 +9,6 @@ export abstract class GensonNode<Value> extends GensonType<Value> {
 
     public args: GensonArgs = new GensonArgs()
 
-    setArgs(args: GensonArgs) {
-        this.args = args
-    }
-
     isOptional(context: GensonContext) {
         if (this.args.hasMarker(GensonNode.VAL_OPTIONAL)) {
             return true
