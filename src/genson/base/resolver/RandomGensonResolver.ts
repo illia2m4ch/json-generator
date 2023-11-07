@@ -23,7 +23,7 @@ export class RandomGensonResolver extends GensonResolver {
 
     protected resolveArray(context: GensonContext, type: GensonArray<any>) {
         let arr = type.value()
-        let size = type.attrSize(context)
+        let size = type.argSize(context)
 
         let staticSize = -1
 
@@ -68,7 +68,11 @@ export class RandomGensonResolver extends GensonResolver {
     }
 
     protected resolveRange(context: GensonContext, type: GensonRange) {
-        return this.randomNumber(type.from, type.to)
+        let step = type.argStep()
+        let stepCount = (type.to - type.from) / step
+        console.log(step)
+        console.log(stepCount)
+        return type.from + step * this.randomNumber(0, stepCount)
     }
 
     protected resolveOther(context: GensonContext, type: GensonType<any>) {

@@ -582,7 +582,9 @@ export default class GensonParser extends Parser {
 		this.enterRule(localctx, 20, GensonParser.RULE_parameterValue);
 		let _la: number;
 		try {
-			this.state = 114;
+			this.enterOuterAlt(localctx, 1);
+			{
+			this.state = 111;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case 2:
@@ -593,38 +595,36 @@ export default class GensonParser extends Parser {
 			case 13:
 			case 15:
 			case 17:
-				this.enterOuterAlt(localctx, 1);
 				{
 				this.state = 108;
-				this.value();
+				this.simpleValue();
 				}
 				break;
 			case 1:
-				this.enterOuterAlt(localctx, 2);
 				{
 				this.state = 109;
 				this.match(GensonParser.RANGE_VALUE);
 				}
 				break;
 			case 7:
-				this.enterOuterAlt(localctx, 3);
 				{
 				this.state = 110;
 				this.match(GensonParser.IDENTIFIER);
-				this.state = 112;
-				this._errHandler.sync(this);
-				_la = this._input.LA(1);
-				if (_la===11) {
-					{
-					this.state = 111;
-					this.args();
-					}
-				}
-
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
+			}
+			this.state = 114;
+			this._errHandler.sync(this);
+			_la = this._input.LA(1);
+			if (_la===11) {
+				{
+				this.state = 113;
+				this.args();
+				}
+			}
+
 			}
 		}
 		catch (re) {
@@ -649,10 +649,10 @@ export default class GensonParser extends Parser {
 	3,3,53,8,3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,5,4,62,8,4,10,4,12,4,65,9,4,1,4,
 	1,4,1,4,1,4,3,4,71,8,4,1,5,1,5,1,5,1,5,5,5,77,8,5,10,5,12,5,80,9,5,1,5,
 	1,5,1,6,1,6,3,6,86,8,6,1,7,1,7,3,7,90,8,7,1,8,1,8,1,8,1,8,5,8,96,8,8,10,
-	8,12,8,99,9,8,1,8,1,8,1,9,1,9,1,9,1,9,3,9,107,8,9,1,10,1,10,1,10,1,10,3,
-	10,113,8,10,3,10,115,8,10,1,10,0,0,11,0,2,4,6,8,10,12,14,16,18,20,0,0,125,
+	8,12,8,99,9,8,1,8,1,8,1,9,1,9,1,9,1,9,3,9,107,8,9,1,10,1,10,1,10,3,10,112,
+	8,10,1,10,3,10,115,8,10,1,10,0,0,11,0,2,4,6,8,10,12,14,16,18,20,0,0,125,
 	0,22,1,0,0,0,2,33,1,0,0,0,4,48,1,0,0,0,6,52,1,0,0,0,8,70,1,0,0,0,10,72,
-	1,0,0,0,12,85,1,0,0,0,14,87,1,0,0,0,16,91,1,0,0,0,18,106,1,0,0,0,20,114,
+	1,0,0,0,12,85,1,0,0,0,14,87,1,0,0,0,16,91,1,0,0,0,18,106,1,0,0,0,20,111,
 	1,0,0,0,22,23,3,14,7,0,23,24,5,0,0,1,24,1,1,0,0,0,25,34,5,2,0,0,26,34,5,
 	3,0,0,27,34,3,4,2,0,28,34,3,8,4,0,29,34,5,5,0,0,30,34,5,6,0,0,31,34,5,4,
 	0,0,32,34,3,10,5,0,33,25,1,0,0,0,33,26,1,0,0,0,33,27,1,0,0,0,33,28,1,0,
@@ -673,10 +673,10 @@ export default class GensonParser extends Parser {
 	0,92,97,3,18,9,0,93,94,5,9,0,0,94,96,3,18,9,0,95,93,1,0,0,0,96,99,1,0,0,
 	0,97,95,1,0,0,0,97,98,1,0,0,0,98,100,1,0,0,0,99,97,1,0,0,0,100,101,5,12,
 	0,0,101,17,1,0,0,0,102,103,5,7,0,0,103,104,5,8,0,0,104,107,3,20,10,0,105,
-	107,3,20,10,0,106,102,1,0,0,0,106,105,1,0,0,0,107,19,1,0,0,0,108,115,3,
-	14,7,0,109,115,5,1,0,0,110,112,5,7,0,0,111,113,3,16,8,0,112,111,1,0,0,0,
-	112,113,1,0,0,0,113,115,1,0,0,0,114,108,1,0,0,0,114,109,1,0,0,0,114,110,
-	1,0,0,0,115,21,1,0,0,0,13,33,41,48,52,63,70,78,85,89,97,106,112,114];
+	107,3,20,10,0,106,102,1,0,0,0,106,105,1,0,0,0,107,19,1,0,0,0,108,112,3,
+	2,1,0,109,112,5,1,0,0,110,112,5,7,0,0,111,108,1,0,0,0,111,109,1,0,0,0,111,
+	110,1,0,0,0,112,114,1,0,0,0,113,115,3,16,8,0,114,113,1,0,0,0,114,115,1,
+	0,0,0,115,21,1,0,0,0,13,33,41,48,52,63,70,78,85,89,97,106,111,114];
 
 	private static __ATN: ATN;
 	public static get _ATN(): ATN {
@@ -1122,8 +1122,8 @@ export class ParameterValueContext extends ParserRuleContext {
 		super(parent, invokingState);
     	this.parser = parser;
 	}
-	public value(): ValueContext {
-		return this.getTypedRuleContext(ValueContext, 0) as ValueContext;
+	public simpleValue(): SimpleValueContext {
+		return this.getTypedRuleContext(SimpleValueContext, 0) as SimpleValueContext;
 	}
 	public RANGE_VALUE(): TerminalNode {
 		return this.getToken(GensonParser.RANGE_VALUE, 0);

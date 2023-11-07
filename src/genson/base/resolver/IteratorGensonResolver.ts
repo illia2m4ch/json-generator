@@ -37,8 +37,9 @@ export class IteratorGensonResolver extends GensonResolver {
 
     protected resolveRange(context: GensonContext, type: GensonRange) {
         let result: number[] = []
-        for (let i = type.from; i <= type.to; i++) {
-            result.push(i)
+        let step = type.argStep()
+        for (let value = type.from; value <= type.to; value += step) {
+            result.push(value)
         }
         return result
     }

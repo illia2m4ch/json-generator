@@ -60,7 +60,5 @@ arg
     ;
 
 parameterValue
-    : value
-    | RANGE_VALUE
-    | IDENTIFIER args?
+    : (simpleValue | RANGE_VALUE | IDENTIFIER) args?
     ;

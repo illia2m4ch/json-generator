@@ -172,30 +172,29 @@ export class GensonVisitor extends GensonParserVisitor<any> {
     }
 
     override visitParameterValue: (ctx: ParameterValueContext) => GensonType<any> = ctx => {
+
+        let type: GensonType<any>
         let parseTree: ParseTree
 
-        if (parseTree = ctx.value()) {
-            return this.visitValue(parseTree as ValueContext)
-        }
-
-        if (parseTree = ctx.RANGE_VALUE()) {
+        if (parseTree = ctx.simpleValue()) {
+            type = this.visitSimpleValue(parseTree as SimpleValueContext)
+        } else if (parseTree = ctx.RANGE_VALUE()) {
             let value = parseTree.getText()
             let index = value.indexOf('..')
             let from = +value.substring(0, index)
             let to = +value.substring(index + 2, value.length)
-            return new GensonRange(from, to)
-        }
-
-        if (parseTree = ctx.IDENTIFIER()) {
+            type = new GensonRange(from, to)
+        } else if (parseTree = ctx.IDENTIFIER()) {
             let identifier = parseTree.getText()
-            if (ctx.args()) {
-                let args = this.visitArgs(ctx.args())
-                return new GensonValue(identifier, args)
-            }
-            return new GensonValue(identifier)
+            type = new GensonValue(identifier)
         }
 
-        return null
+        let argsContext = ctx.args()
+        if (argsContext) {
+            type.args = this.visitArgs(argsContext)
+        }
+
+        return type
     }
 
 }

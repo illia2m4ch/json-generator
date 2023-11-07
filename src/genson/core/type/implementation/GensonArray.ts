@@ -10,7 +10,7 @@ export class GensonArray<Item> extends GensonNode<GensonNode<Item>[]> {
         super(value)
     }
 
-    attrSize(context: GensonContext) {
+    argSize(context: GensonContext) {
         let size = this.args.get(GensonArray.ATTR_SIZE)
         size = size ? size : this.args.get('0')
         return size ? size : context.get(GensonArray.VAL_DEFAULT_ARRAY_SIZE)
