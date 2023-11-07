@@ -37,21 +37,25 @@ export class GensonContext {
         }
     }
 
-    get(id: string, args?: GensonArgs): GensonType<any> {
+    get(id: string, args?: GensonArgs) {
+        return this.getInternal(this, id, args)
+    }
+
+    private getInternal(caller: GensonContext, id: string, args?: GensonArgs): GensonType<any> {
         if (this.values.has(id)) {
             let value = this.values.get(id)
             if (value instanceof GensonValue) {
-                return this.get(value.identifier, args?.isEmpty() ? value.args : args)
+                return this.getInternal(caller, value.identifier, args?.isEmpty() ? value.args : args)
             }
             return value
         }
 
         if (this.functions.has(id)) {
-            return this.functions.get(id).execute(this, args)
+            return this.functions.get(id).execute(caller, args)
         }
 
         if (this.parent()) {
-            return this._parent.get(id, args)
+            return this.parent().getInternal(caller, id, args)
         }
 
         return null

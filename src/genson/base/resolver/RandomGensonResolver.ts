@@ -25,7 +25,7 @@ export class RandomGensonResolver extends GensonResolver {
         let arr = type.value()
         let size = type.attrSize(context)
 
-        let staticSize = 1
+        let staticSize = -1
 
         if (size instanceof GensonNumber) {
             staticSize = size.value()
@@ -53,9 +53,11 @@ export class RandomGensonResolver extends GensonResolver {
 
     protected resolveObject(context: GensonContext, type: GensonObject) {
         let object = {}
-        type.value().forEach((node, name) => {
-            if (!node.isOptional(context) || (this.randomNumber(0, 1) === 1)) {
-                object[name] = this.resolve(context, node)
+        type.value().forEach((node, nameNode) => {
+            let name = this.resolve(context, nameNode)
+            if (name !== null) {
+                let stringName = name instanceof Object ? JSON.stringify(name) : name
+                object[stringName] = this.resolve(context, node)
             }
         })
         return object

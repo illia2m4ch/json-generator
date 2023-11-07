@@ -24,11 +24,11 @@ export class IteratorGensonResolver extends GensonResolver {
     }
 
     protected resolveArray(context: GensonContext, type: GensonArray<any>) {
-        return this.variants(context, [...type.value().entries()]).map(value => Object.values(value))
+        return this.objectVariants(context, [...type.value().entries()]).map(value => Object.values(value))
     }
 
     protected resolveObject(context: GensonContext, type: GensonObject) {
-        return this.variants(context, [...type.value().entries()])
+        return this.objectVariants(context, [...type.value()])
     }
 
     protected resolveValue(context: GensonContext, type: GensonValue) {
@@ -47,34 +47,57 @@ export class IteratorGensonResolver extends GensonResolver {
         return [type.value()]
     }
 
-    protected wrapResult(value: any) {
-        if (value instanceof Array) {
-            return value
-        }
-        return [value]
-    }
-
-    protected variants<K>(context: GensonContext, array: [K, GensonNode<any>][]) {
+    protected objectVariants(context: GensonContext, array: [number | GensonNode<any>, GensonNode<any>][]) {
         let result = []
         let maxVariants = 1
-
-        let variants: [K, any[]][] = array.map(([name, property]) => {
-            let propertyVariants = this.wrapResult(this.resolve(context, property))
+        let variants: [string, any][][] = array.map(([name, value]) => {
+            let propertyVariants = this.propertyVariants(context, name, value)
             if (propertyVariants.length > maxVariants) {
                 maxVariants = propertyVariants.length
             }
-            return [name, propertyVariants]
+            return this.propertyVariants(context, name, value)
         })
 
         for (let i = 0; i < maxVariants; i++) {
             let object = {}
-            variants.forEach(([name, variants]) => {
-                object[name.toString()] = variants[i % variants.length]
+
+            variants.forEach((propertyVariants) => {
+                let variant = propertyVariants[i % propertyVariants.length]
+                object[variant[0]] = variant[1]
             })
+
             result.push(object)
         }
 
         return result
+    }
+
+    protected propertyVariants(context: GensonContext, name: number | GensonNode<any>, value: GensonNode<any>): [string, any][] {
+        let propertyVariants = this.wrapResult(this.resolve(context, value))
+        let nameVariants: any[]
+
+        if (typeof name === 'number') {
+            nameVariants = [name]
+        } else if (name instanceof GensonNode) {
+            nameVariants = this.wrapResult(this.resolve(context, name))
+        }
+
+        let result: [string, any][] = []
+        nameVariants.forEach(name => {
+            let stringName = name instanceof Object ? JSON.stringify(name) : name.toString()
+            propertyVariants.forEach(value => {
+                result.push([stringName, value])
+            })
+        })
+
+        return result
+    }
+
+    protected wrapResult(value: any): any[] {
+        if (value instanceof Array) {
+            return value
+        }
+        return [value]
     }
 
 }

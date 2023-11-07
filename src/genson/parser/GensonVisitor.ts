@@ -26,6 +26,7 @@ import {GensonString} from "../core/type/implementation/GensonString";
 import {GensonObject} from "../core/type/implementation/GensonObject";
 import {GensonArray} from "../core/type/implementation/GensonArray";
 import {GensonPlaceholder} from "../core/type/implementation/GensonPlaceholder";
+import GensonNodeUtil from "../core/type/abstract/GensonNodeUtil";
 
 export class GensonVisitor extends GensonParserVisitor<any> {
 
@@ -74,7 +75,7 @@ export class GensonVisitor extends GensonParserVisitor<any> {
     }
 
     override visitObj: (ctx: ObjContext) => GensonObject  = ctx => {
-        let pairs = new Map<string, GensonNode<any>>()
+        let pairs = new Map<GensonNode<any>, GensonNode<any>>()
 
         ctx.pair_list().forEach(pair => {
             let result = this.visitPair(pair)
@@ -84,10 +85,18 @@ export class GensonVisitor extends GensonParserVisitor<any> {
         return new GensonObject(pairs)
     }
 
-    override visitPair: (ctx: PairContext) => [string, GensonNode<any>] = ctx => {
-        let name = ctx.STRING().getText()
+    override visitPair: (ctx: PairContext) => [GensonNode<any>, GensonNode<any>] = ctx => {
+        let parseTree: ParseTree
+        let name: GensonNode<any>
+        if (parseTree = ctx.STRING()) {
+            let nameValue = parseTree.getText()
+            name = new GensonString(nameValue.substring(1, nameValue.length - 1))
+        } else if (parseTree = ctx.placeholder()) {
+            name = this.visitPlaceholder(parseTree as PlaceholderContext)
+        }
+
         let value = this.visitValue(ctx.value())
-        return [name.substring(1, name.length - 1), value]
+        return [name, value]
     }
 
     override visitArr: (ctx: ArrContext) => GensonArray<GensonNode<any>> = ctx => {
@@ -130,6 +139,12 @@ export class GensonVisitor extends GensonParserVisitor<any> {
             let args = this.visitArgs(ctx.args())
             node.args = args
         }
+
+        let alternatives = GensonNodeUtil.alternatives(node)
+        if (alternatives && alternatives.length > 0) {
+            return new GensonPlaceholder([node as GensonType<any>].concat(alternatives))
+        }
+
         return node
     }
 

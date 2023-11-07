@@ -1,6 +1,5 @@
 import {GensonContext} from "../../core/context/GensonContext";
 import {GensonNumber} from "../../core/type/implementation/GensonNumber";
-import {GensonBoolean} from "../../core/type/implementation/GensonBoolean";
 import {CategoryGensonDataSet} from "../../core/function/GensonDataSet";
 import {StringGensonFunction} from "../function/StringGensonFunction";
 import {ShuffleGensonFunction} from "../function/ShuffleGensonFunction";
@@ -12,13 +11,13 @@ import {RandomGensonResolver} from "../resolver/RandomGensonResolver";
 import {VariantsGensonResolver} from "../resolver/VariantsGensonResolver";
 import {GensonResolver} from "../../core/resolver/GensonResolver";
 import {IteratorGensonResolver} from "../resolver/IteratorGensonResolver";
+import DateGensonFunction from "../function/DateGensorFunction";
 
 export class DefaultGensonConfig extends GensonConfig {
 
     override init(context: GensonContext) {
         // values
         context.define('defArraySize', new GensonNumber(-1))
-        context.define('defOptional', new GensonBoolean(false))
 
         // dataSets
         context.define('name', new CategoryGensonDataSet('locale', 'ru', nameJson))
@@ -27,6 +26,7 @@ export class DefaultGensonConfig extends GensonConfig {
         context.define('string', new StringGensonFunction())
         context.define('shuffle', new ShuffleGensonFunction())
         context.define('boolean', new BooleanGensonFunction())
+        context.define('date', new DateGensonFunction())
     }
 
     createResolver(context: GensonContext) {

@@ -25,7 +25,7 @@ obj
    ;
 
 pair
-   : STRING COLON value
+   : (STRING | placeholder) COLON value
    ;
 
 arr

@@ -1,8 +1,8 @@
 import {GensonNode} from "../abstract/GensonNode";
 
-export class GensonObject extends GensonNode<Map<string, GensonNode<any>>> {
+export class GensonObject extends GensonNode<Map<GensonNode<any>, GensonNode<any>>> {
 
-    public constructor(value: Map<string, GensonNode<any>>) {
+    public constructor(value: Map<GensonNode<any>, GensonNode<any>>) {
         super(value)
     }
 

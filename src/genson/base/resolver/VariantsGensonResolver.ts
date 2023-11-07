@@ -75,7 +75,7 @@ export class VariantsGensonResolver extends IteratorGensonResolver {
 
         let object = {}
         type.value().forEach((v, k) => {
-            object[k] = this.resolve(context, v)
+            object[k.toString()] = this.resolve(context, v) // TODO обрабатывать динамические ключи
         })
 
         result.push(object)

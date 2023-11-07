@@ -269,11 +269,27 @@ export default class GensonParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 50;
-			this.match(GensonParser.STRING);
-			this.state = 51;
-			this.match(GensonParser.COLON);
 			this.state = 52;
+			this._errHandler.sync(this);
+			switch (this._input.LA(1)) {
+			case 2:
+				{
+				this.state = 50;
+				this.match(GensonParser.STRING);
+				}
+				break;
+			case 17:
+				{
+				this.state = 51;
+				this.placeholder();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			this.state = 54;
+			this.match(GensonParser.COLON);
+			this.state = 55;
 			this.value();
 			}
 		}
@@ -297,42 +313,42 @@ export default class GensonParser extends Parser {
 		this.enterRule(localctx, 8, GensonParser.RULE_arr);
 		let _la: number;
 		try {
-			this.state = 67;
+			this.state = 70;
 			this._errHandler.sync(this);
-			switch ( this._interp.adaptivePredict(this._input, 4, this._ctx) ) {
+			switch ( this._interp.adaptivePredict(this._input, 5, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(localctx, 1);
 				{
-				this.state = 54;
+				this.state = 57;
 				this.match(GensonParser.LSQUARE);
-				this.state = 55;
+				this.state = 58;
 				this.value();
-				this.state = 60;
+				this.state = 63;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 				while (_la===9) {
 					{
 					{
-					this.state = 56;
+					this.state = 59;
 					this.match(GensonParser.COMMA);
-					this.state = 57;
+					this.state = 60;
 					this.value();
 					}
 					}
-					this.state = 62;
+					this.state = 65;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 				}
-				this.state = 63;
+				this.state = 66;
 				this.match(GensonParser.RSQUARE);
 				}
 				break;
 			case 2:
 				this.enterOuterAlt(localctx, 2);
 				{
-				this.state = 65;
+				this.state = 68;
 				this.match(GensonParser.LSQUARE);
-				this.state = 66;
+				this.state = 69;
 				this.match(GensonParser.RSQUARE);
 				}
 				break;
@@ -360,27 +376,27 @@ export default class GensonParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 69;
+			this.state = 72;
 			this.match(GensonParser.LPLACEHOLDER);
-			this.state = 70;
+			this.state = 73;
 			this.placeholderValue();
-			this.state = 75;
+			this.state = 78;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la===9) {
 				{
 				{
-				this.state = 71;
+				this.state = 74;
 				this.match(GensonParser.COMMA);
-				this.state = 72;
+				this.state = 75;
 				this.placeholderValue();
 				}
 				}
-				this.state = 77;
+				this.state = 80;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 78;
+			this.state = 81;
 			this.match(GensonParser.RPLACEHOLDER);
 			}
 		}
@@ -403,20 +419,20 @@ export default class GensonParser extends Parser {
 		let localctx: PlaceholderValueContext = new PlaceholderValueContext(this, this._ctx, this.state);
 		this.enterRule(localctx, 12, GensonParser.RULE_placeholderValue);
 		try {
-			this.state = 82;
+			this.state = 85;
 			this._errHandler.sync(this);
-			switch ( this._interp.adaptivePredict(this._input, 6, this._ctx) ) {
+			switch ( this._interp.adaptivePredict(this._input, 7, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(localctx, 1);
 				{
-				this.state = 80;
+				this.state = 83;
 				this.value();
 				}
 				break;
 			case 2:
 				this.enterOuterAlt(localctx, 2);
 				{
-				this.state = 81;
+				this.state = 84;
 				this.parameterValue();
 				}
 				break;
@@ -444,14 +460,14 @@ export default class GensonParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 84;
+			this.state = 87;
 			this.simpleValue();
-			this.state = 86;
+			this.state = 89;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la===11) {
 				{
-				this.state = 85;
+				this.state = 88;
 				this.args();
 				}
 			}
@@ -480,27 +496,27 @@ export default class GensonParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 88;
+			this.state = 91;
 			this.match(GensonParser.LPAREN);
-			this.state = 89;
+			this.state = 92;
 			this.arg();
-			this.state = 94;
+			this.state = 97;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la===9) {
 				{
 				{
-				this.state = 90;
+				this.state = 93;
 				this.match(GensonParser.COMMA);
-				this.state = 91;
+				this.state = 94;
 				this.arg();
 				}
 				}
-				this.state = 96;
+				this.state = 99;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 97;
+			this.state = 100;
 			this.match(GensonParser.RPAREN);
 			}
 		}
@@ -523,24 +539,24 @@ export default class GensonParser extends Parser {
 		let localctx: ArgContext = new ArgContext(this, this._ctx, this.state);
 		this.enterRule(localctx, 18, GensonParser.RULE_arg);
 		try {
-			this.state = 103;
+			this.state = 106;
 			this._errHandler.sync(this);
-			switch ( this._interp.adaptivePredict(this._input, 9, this._ctx) ) {
+			switch ( this._interp.adaptivePredict(this._input, 10, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(localctx, 1);
 				{
-				this.state = 99;
+				this.state = 102;
 				this.match(GensonParser.IDENTIFIER);
-				this.state = 100;
+				this.state = 103;
 				this.match(GensonParser.ASSIGNMENT);
-				this.state = 101;
+				this.state = 104;
 				this.parameterValue();
 				}
 				break;
 			case 2:
 				this.enterOuterAlt(localctx, 2);
 				{
-				this.state = 102;
+				this.state = 105;
 				this.parameterValue();
 				}
 				break;
@@ -566,7 +582,7 @@ export default class GensonParser extends Parser {
 		this.enterRule(localctx, 20, GensonParser.RULE_parameterValue);
 		let _la: number;
 		try {
-			this.state = 111;
+			this.state = 114;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case 2:
@@ -579,28 +595,28 @@ export default class GensonParser extends Parser {
 			case 17:
 				this.enterOuterAlt(localctx, 1);
 				{
-				this.state = 105;
+				this.state = 108;
 				this.value();
 				}
 				break;
 			case 1:
 				this.enterOuterAlt(localctx, 2);
 				{
-				this.state = 106;
+				this.state = 109;
 				this.match(GensonParser.RANGE_VALUE);
 				}
 				break;
 			case 7:
 				this.enterOuterAlt(localctx, 3);
 				{
-				this.state = 107;
+				this.state = 110;
 				this.match(GensonParser.IDENTIFIER);
-				this.state = 109;
+				this.state = 112;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 				if (_la===11) {
 					{
-					this.state = 108;
+					this.state = 111;
 					this.args();
 					}
 				}
@@ -626,40 +642,41 @@ export default class GensonParser extends Parser {
 		return localctx;
 	}
 
-	public static readonly _serializedATN: number[] = [4,1,19,114,2,0,7,0,2,
+	public static readonly _serializedATN: number[] = [4,1,19,117,2,0,7,0,2,
 	1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,
 	10,7,10,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,34,8,1,1,2,1,2,
 	1,2,1,2,5,2,40,8,2,10,2,12,2,43,9,2,1,2,1,2,1,2,1,2,3,2,49,8,2,1,3,1,3,
-	1,3,1,3,1,4,1,4,1,4,1,4,5,4,59,8,4,10,4,12,4,62,9,4,1,4,1,4,1,4,1,4,3,4,
-	68,8,4,1,5,1,5,1,5,1,5,5,5,74,8,5,10,5,12,5,77,9,5,1,5,1,5,1,6,1,6,3,6,
-	83,8,6,1,7,1,7,3,7,87,8,7,1,8,1,8,1,8,1,8,5,8,93,8,8,10,8,12,8,96,9,8,1,
-	8,1,8,1,9,1,9,1,9,1,9,3,9,104,8,9,1,10,1,10,1,10,1,10,3,10,110,8,10,3,10,
-	112,8,10,1,10,0,0,11,0,2,4,6,8,10,12,14,16,18,20,0,0,121,0,22,1,0,0,0,2,
-	33,1,0,0,0,4,48,1,0,0,0,6,50,1,0,0,0,8,67,1,0,0,0,10,69,1,0,0,0,12,82,1,
-	0,0,0,14,84,1,0,0,0,16,88,1,0,0,0,18,103,1,0,0,0,20,111,1,0,0,0,22,23,3,
-	14,7,0,23,24,5,0,0,1,24,1,1,0,0,0,25,34,5,2,0,0,26,34,5,3,0,0,27,34,3,4,
-	2,0,28,34,3,8,4,0,29,34,5,5,0,0,30,34,5,6,0,0,31,34,5,4,0,0,32,34,3,10,
-	5,0,33,25,1,0,0,0,33,26,1,0,0,0,33,27,1,0,0,0,33,28,1,0,0,0,33,29,1,0,0,
-	0,33,30,1,0,0,0,33,31,1,0,0,0,33,32,1,0,0,0,34,3,1,0,0,0,35,36,5,15,0,0,
-	36,41,3,6,3,0,37,38,5,9,0,0,38,40,3,6,3,0,39,37,1,0,0,0,40,43,1,0,0,0,41,
-	39,1,0,0,0,41,42,1,0,0,0,42,44,1,0,0,0,43,41,1,0,0,0,44,45,5,16,0,0,45,
-	49,1,0,0,0,46,47,5,15,0,0,47,49,5,16,0,0,48,35,1,0,0,0,48,46,1,0,0,0,49,
-	5,1,0,0,0,50,51,5,2,0,0,51,52,5,10,0,0,52,53,3,14,7,0,53,7,1,0,0,0,54,55,
-	5,13,0,0,55,60,3,14,7,0,56,57,5,9,0,0,57,59,3,14,7,0,58,56,1,0,0,0,59,62,
-	1,0,0,0,60,58,1,0,0,0,60,61,1,0,0,0,61,63,1,0,0,0,62,60,1,0,0,0,63,64,5,
-	14,0,0,64,68,1,0,0,0,65,66,5,13,0,0,66,68,5,14,0,0,67,54,1,0,0,0,67,65,
-	1,0,0,0,68,9,1,0,0,0,69,70,5,17,0,0,70,75,3,12,6,0,71,72,5,9,0,0,72,74,
-	3,12,6,0,73,71,1,0,0,0,74,77,1,0,0,0,75,73,1,0,0,0,75,76,1,0,0,0,76,78,
-	1,0,0,0,77,75,1,0,0,0,78,79,5,18,0,0,79,11,1,0,0,0,80,83,3,14,7,0,81,83,
-	3,20,10,0,82,80,1,0,0,0,82,81,1,0,0,0,83,13,1,0,0,0,84,86,3,2,1,0,85,87,
-	3,16,8,0,86,85,1,0,0,0,86,87,1,0,0,0,87,15,1,0,0,0,88,89,5,11,0,0,89,94,
-	3,18,9,0,90,91,5,9,0,0,91,93,3,18,9,0,92,90,1,0,0,0,93,96,1,0,0,0,94,92,
-	1,0,0,0,94,95,1,0,0,0,95,97,1,0,0,0,96,94,1,0,0,0,97,98,5,12,0,0,98,17,
-	1,0,0,0,99,100,5,7,0,0,100,101,5,8,0,0,101,104,3,20,10,0,102,104,3,20,10,
-	0,103,99,1,0,0,0,103,102,1,0,0,0,104,19,1,0,0,0,105,112,3,14,7,0,106,112,
-	5,1,0,0,107,109,5,7,0,0,108,110,3,16,8,0,109,108,1,0,0,0,109,110,1,0,0,
-	0,110,112,1,0,0,0,111,105,1,0,0,0,111,106,1,0,0,0,111,107,1,0,0,0,112,21,
-	1,0,0,0,12,33,41,48,60,67,75,82,86,94,103,109,111];
+	3,3,53,8,3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,5,4,62,8,4,10,4,12,4,65,9,4,1,4,
+	1,4,1,4,1,4,3,4,71,8,4,1,5,1,5,1,5,1,5,5,5,77,8,5,10,5,12,5,80,9,5,1,5,
+	1,5,1,6,1,6,3,6,86,8,6,1,7,1,7,3,7,90,8,7,1,8,1,8,1,8,1,8,5,8,96,8,8,10,
+	8,12,8,99,9,8,1,8,1,8,1,9,1,9,1,9,1,9,3,9,107,8,9,1,10,1,10,1,10,1,10,3,
+	10,113,8,10,3,10,115,8,10,1,10,0,0,11,0,2,4,6,8,10,12,14,16,18,20,0,0,125,
+	0,22,1,0,0,0,2,33,1,0,0,0,4,48,1,0,0,0,6,52,1,0,0,0,8,70,1,0,0,0,10,72,
+	1,0,0,0,12,85,1,0,0,0,14,87,1,0,0,0,16,91,1,0,0,0,18,106,1,0,0,0,20,114,
+	1,0,0,0,22,23,3,14,7,0,23,24,5,0,0,1,24,1,1,0,0,0,25,34,5,2,0,0,26,34,5,
+	3,0,0,27,34,3,4,2,0,28,34,3,8,4,0,29,34,5,5,0,0,30,34,5,6,0,0,31,34,5,4,
+	0,0,32,34,3,10,5,0,33,25,1,0,0,0,33,26,1,0,0,0,33,27,1,0,0,0,33,28,1,0,
+	0,0,33,29,1,0,0,0,33,30,1,0,0,0,33,31,1,0,0,0,33,32,1,0,0,0,34,3,1,0,0,
+	0,35,36,5,15,0,0,36,41,3,6,3,0,37,38,5,9,0,0,38,40,3,6,3,0,39,37,1,0,0,
+	0,40,43,1,0,0,0,41,39,1,0,0,0,41,42,1,0,0,0,42,44,1,0,0,0,43,41,1,0,0,0,
+	44,45,5,16,0,0,45,49,1,0,0,0,46,47,5,15,0,0,47,49,5,16,0,0,48,35,1,0,0,
+	0,48,46,1,0,0,0,49,5,1,0,0,0,50,53,5,2,0,0,51,53,3,10,5,0,52,50,1,0,0,0,
+	52,51,1,0,0,0,53,54,1,0,0,0,54,55,5,10,0,0,55,56,3,14,7,0,56,7,1,0,0,0,
+	57,58,5,13,0,0,58,63,3,14,7,0,59,60,5,9,0,0,60,62,3,14,7,0,61,59,1,0,0,
+	0,62,65,1,0,0,0,63,61,1,0,0,0,63,64,1,0,0,0,64,66,1,0,0,0,65,63,1,0,0,0,
+	66,67,5,14,0,0,67,71,1,0,0,0,68,69,5,13,0,0,69,71,5,14,0,0,70,57,1,0,0,
+	0,70,68,1,0,0,0,71,9,1,0,0,0,72,73,5,17,0,0,73,78,3,12,6,0,74,75,5,9,0,
+	0,75,77,3,12,6,0,76,74,1,0,0,0,77,80,1,0,0,0,78,76,1,0,0,0,78,79,1,0,0,
+	0,79,81,1,0,0,0,80,78,1,0,0,0,81,82,5,18,0,0,82,11,1,0,0,0,83,86,3,14,7,
+	0,84,86,3,20,10,0,85,83,1,0,0,0,85,84,1,0,0,0,86,13,1,0,0,0,87,89,3,2,1,
+	0,88,90,3,16,8,0,89,88,1,0,0,0,89,90,1,0,0,0,90,15,1,0,0,0,91,92,5,11,0,
+	0,92,97,3,18,9,0,93,94,5,9,0,0,94,96,3,18,9,0,95,93,1,0,0,0,96,99,1,0,0,
+	0,97,95,1,0,0,0,97,98,1,0,0,0,98,100,1,0,0,0,99,97,1,0,0,0,100,101,5,12,
+	0,0,101,17,1,0,0,0,102,103,5,7,0,0,103,104,5,8,0,0,104,107,3,20,10,0,105,
+	107,3,20,10,0,106,102,1,0,0,0,106,105,1,0,0,0,107,19,1,0,0,0,108,115,3,
+	14,7,0,109,115,5,1,0,0,110,112,5,7,0,0,111,113,3,16,8,0,112,111,1,0,0,0,
+	112,113,1,0,0,0,113,115,1,0,0,0,114,108,1,0,0,0,114,109,1,0,0,0,114,110,
+	1,0,0,0,115,21,1,0,0,0,13,33,41,48,52,63,70,78,85,89,97,106,112,114];
 
 	private static __ATN: ATN;
 	public static get _ATN(): ATN {
@@ -815,14 +832,17 @@ export class PairContext extends ParserRuleContext {
 		super(parent, invokingState);
     	this.parser = parser;
 	}
-	public STRING(): TerminalNode {
-		return this.getToken(GensonParser.STRING, 0);
-	}
 	public COLON(): TerminalNode {
 		return this.getToken(GensonParser.COLON, 0);
 	}
 	public value(): ValueContext {
 		return this.getTypedRuleContext(ValueContext, 0) as ValueContext;
+	}
+	public STRING(): TerminalNode {
+		return this.getToken(GensonParser.STRING, 0);
+	}
+	public placeholder(): PlaceholderContext {
+		return this.getTypedRuleContext(PlaceholderContext, 0) as PlaceholderContext;
 	}
     public get ruleIndex(): number {
     	return GensonParser.RULE_pair;

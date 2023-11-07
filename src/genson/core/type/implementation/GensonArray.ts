@@ -1,6 +1,5 @@
 import {GensonNode} from "../abstract/GensonNode";
 import {GensonContext} from "../../context/GensonContext";
-import {GensonNumber} from "./GensonNumber";
 
 export class GensonArray<Item> extends GensonNode<GensonNode<Item>[]> {
 
