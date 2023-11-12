@@ -11,7 +11,7 @@ import {RandomGensonResolver} from "../resolver/RandomGensonResolver";
 import {VariantsGensonResolver} from "../resolver/VariantsGensonResolver";
 import {GensonResolver} from "../../core/resolver/GensonResolver";
 import {IteratorGensonResolver} from "../resolver/IteratorGensonResolver";
-import DateGensonFunction from "../function/DateGensorFunction";
+import TimestampGensonFunction from "../function/DateGensorFunction";
 
 export class DefaultGensonConfig extends GensonConfig {
 
@@ -23,10 +23,10 @@ export class DefaultGensonConfig extends GensonConfig {
         context.define('name', new CategoryGensonDataSet('locale', 'ru', nameJson))
 
         // functions
-        context.define('string', new StringGensonFunction())
+        context.define('str', new StringGensonFunction())
         context.define('shuffle', new ShuffleGensonFunction())
-        context.define('boolean', new BooleanGensonFunction())
-        context.define('date', new DateGensonFunction())
+        context.define('bool', new BooleanGensonFunction())
+        context.define('timestamp', new TimestampGensonFunction())
     }
 
     createResolver(context: GensonContext) {
