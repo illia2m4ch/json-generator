@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import {Genson} from "../../genson/parser/Genson";
+import Stubson from "../../stubson/parser/Stubson";
 
-const genson = new Genson()
+const stubson = new Stubson()
 
 function JsonPreview(
     props: {
@@ -9,7 +9,7 @@ function JsonPreview(
         className: string
     }
 ){
-    return <pre className={props.className} style={{margin: 10, overflowY: 'scroll'}}>{genson.generate(props.value)}</pre>
+    return <pre className={props.className} style={{margin: 10, overflowY: 'scroll'}}>{stubson.generate(props.value)}</pre>
 }
 
 export default JsonPreview

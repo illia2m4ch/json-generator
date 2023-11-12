@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import './Main.css'
-import GensonEditor from "../gensoneditor/GensonEditor"
+import StubsonEditor from "../stubsoneditor/StubsonEditor"
 import JsonPreview from "../jsonpreview/JsonPreview"
 
 function Main() {
@@ -11,7 +11,7 @@ function Main() {
     // });
 
     return <div className={"main-container"}>
-        <GensonEditor className={"main-item"} onValueChange={setValue}/>
+        <StubsonEditor className={"main-item"} onValueChange={setValue}/>
         {/*<div className={"main-divider"}/>*/}
         <JsonPreview className={"main-item"} value={value}/>
     </div>
