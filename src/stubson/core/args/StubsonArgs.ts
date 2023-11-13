@@ -17,17 +17,17 @@ export default class StubsonArgs {
         this.args.forEach(callback)
     }
 
-    hasMarker(name: string) {
-        let hasMarker = false
-        this.args.forEach(value => {
-            if (value instanceof StubsonValue && value.identifier === name) {
-                hasMarker = true
-            }
-        })
-        if (hasMarker) {
-            return true
-        }
-    }
+    // hasMarker(name: string) {
+    //     let hasMarker = false
+    //     this.args.forEach(value => {
+    //         if (value instanceof StubsonValue && value.identifier === name) {
+    //             hasMarker = true
+    //         }
+    //     })
+    //     if (hasMarker) {
+    //         return true
+    //     }
+    // }
 
     isEmpty() {
         return this.args.size === 0

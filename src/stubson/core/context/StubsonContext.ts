@@ -1,4 +1,4 @@
-import {StubsonParserVisitor} from "../function/StubsonParserVisitor";
+import {StubsonFunction} from "../function/StubsonFunction";
 import StubsonType from "../type/abstract/StubsonType";
 import StubsonArgs from "../args/StubsonArgs";
 import StubsonResolver from "../resolver/StubsonResolver";
@@ -17,7 +17,7 @@ export default class StubsonContext {
     private readonly _parent: StubsonContext = null
 
     private values = new Map<string, StubsonType<any>>()
-    private functions = new Map<string, StubsonParserVisitor>()
+    private functions = new Map<string, StubsonFunction>()
 
     private readonly _config: StubsonConfig
     private readonly _resolver: StubsonResolver
@@ -30,7 +30,7 @@ export default class StubsonContext {
     }
 
     define(id: string, value: any) {
-        if (value instanceof StubsonParserVisitor) {
+        if (value instanceof StubsonFunction) {
             this.functions.set(id, value)
         } else {
             this.values.set(id, value)

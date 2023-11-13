@@ -2,9 +2,9 @@ import StubsonContext from "../../core/context/StubsonContext";
 import StubsonArgs from "../../core/args/StubsonArgs";
 import StubsonType from "../../core/type/abstract/StubsonType";
 import StubsonString from "../../core/type/implementation/StubsonString";
-import {StubsonParserVisitor} from "../../core/function/StubsonParserVisitor";
+import {StubsonFunction} from "../../core/function/StubsonFunction";
 
-export default class StringStubsonFunction extends StubsonParserVisitor {
+export default class StringStubsonFunction extends StubsonFunction {
     override execute(context: StubsonContext, args: StubsonArgs) {
         let result = ""
         args.forEach(value => {

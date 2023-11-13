@@ -1,9 +1,9 @@
 import StubsonContext from "../context/StubsonContext";
-import {StubsonParserVisitor} from "./StubsonParserVisitor";
+import {StubsonFunction} from "./StubsonFunction";
 import StubsonArgs from "../args/StubsonArgs";
 import StubsonPlaceholder from "../type/implementation/StubsonPlaceholder";
 
-export abstract class StubsonDataSet extends StubsonParserVisitor {
+export abstract class StubsonDataSet extends StubsonFunction {
 
     protected readonly schema: object
 

@@ -3,9 +3,9 @@ import StubsonArgs from "../../core/args/StubsonArgs";
 import StubsonString from "../../core/type/implementation/StubsonString";
 import StubsonArray from "../../core/type/implementation/StubsonArray";
 import StubsonValue from "../../core/type/implementation/StubsonValue";
-import {StubsonParserVisitor} from "../../core/function/StubsonParserVisitor";
+import {StubsonFunction} from "../../core/function/StubsonFunction";
 
-export default class ShuffleStubsonFunction extends StubsonParserVisitor {
+export default class ShuffleStubsonFunction extends StubsonFunction {
     override execute(context: StubsonContext, args: StubsonArgs) {
         let result = null
         args?.forEach(value => {
