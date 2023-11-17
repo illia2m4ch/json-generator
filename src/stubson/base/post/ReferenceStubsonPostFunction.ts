@@ -29,6 +29,11 @@ export default class ReferenceStubsonPostFunction extends StubsonPostFunction {
                 element = element[part]
             }
         }
+
+        if (element instanceof StubsonValue) {
+            return null // TODO improve logic
+        }
+
         return element
     }
 
