@@ -146,13 +146,11 @@ export default class StubsonVisitor extends StubsonParserVisitor<any> {
 
     override visitArgs: (ctx: ArgsContext) => StubsonArgs = ctx => {
         let args = new StubsonArgs()
-        let index = 0
-        ctx.arg_list().forEach(arg => {
+        ctx.arg_list().forEach((arg, index) => {
             let result = this.visitArg(arg)
             let name = result[0]
 
             args.set(name ? name : index.toString(), result[1])
-            index++
         })
 
         return args
