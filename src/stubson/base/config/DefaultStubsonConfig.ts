@@ -11,7 +11,7 @@ import RandomStubsonResolver from "../resolver/RandomStubsonResolver";
 import VariantsStubsonResolver from "../resolver/VariantsStubsonResolver";
 import StubsonResolver from "../../core/resolver/StubsonResolver";
 import IteratorStubsonResolver from "../resolver/IteratorStubsonResolver";
-import TimestampStubsonFunction from "../function/TimestampGensorFunction";
+import TimestampStubsonFunction from "../function/TimestampStubsonFunction";
 import ColorStubsonFunction from "../function/ColorGensorFunction";
 import ReferenceStubsonPostFunction from "../post/ReferenceStubsonPostFunction";
 import IndexStubsonPostFunction from "../post/IndexStubsonPostFunction";
