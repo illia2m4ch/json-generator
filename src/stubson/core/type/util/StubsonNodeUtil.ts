@@ -1,4 +1,4 @@
-import StubsonNode from "./StubsonNode";
+import StubsonNode from "../abstract/StubsonNode";
 import StubsonArray from "../implementation/StubsonArray";
 
 export default class StubsonNodeUtil {

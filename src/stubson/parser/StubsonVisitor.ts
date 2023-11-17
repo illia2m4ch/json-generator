@@ -22,7 +22,7 @@ import StubsonString from "../core/type/implementation/StubsonString";
 import {StubsonObject} from "../core/type/implementation/StubsonObject";
 import StubsonArray from "../core/type/implementation/StubsonArray";
 import StubsonPlaceholder from "../core/type/implementation/StubsonPlaceholder";
-import StubsonNodeUtil from "../core/type/abstract/StubsonNodeUtil";
+import StubsonNodeUtil from "../core/type/util/StubsonNodeUtil";
 
 export default class StubsonVisitor extends StubsonParserVisitor<any> {
 

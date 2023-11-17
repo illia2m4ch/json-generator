@@ -44,11 +44,7 @@ export default class RandomStubsonResolver extends StubsonResolver {
             }
         }
 
-        return array.map((item, index) => {
-            let itemContext = context.child(item)
-            itemContext.define('index', new StubsonNumber(index))
-            return this.resolve(itemContext, item)
-        })
+        return array.map(item => this.resolve(context, item))
     }
 
     protected resolveObject(context: StubsonContext, type: StubsonObject) {
@@ -70,8 +66,6 @@ export default class RandomStubsonResolver extends StubsonResolver {
     protected resolveRange(context: StubsonContext, type: StubsonRange) {
         let step = type.argStep()
         let stepCount = (type.to - type.from) / step
-        console.log(step)
-        console.log(stepCount)
         return type.from + step * this.randomNumber(0, stepCount)
     }
 

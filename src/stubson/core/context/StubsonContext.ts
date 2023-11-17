@@ -5,6 +5,8 @@ import StubsonResolver from "../resolver/StubsonResolver";
 import StubsonNode from "../type/abstract/StubsonNode";
 import StubsonValue from "../type/implementation/StubsonValue";
 import StubsonConfig from "../config/StubsonConfig";
+import StubsonPostResolver from "../post/StubsonPostResolver";
+import StubsonPostFunction from "../post/StubsonPostFunction";
 
 export default class StubsonContext {
 
@@ -18,6 +20,7 @@ export default class StubsonContext {
 
     private values = new Map<string, StubsonType<any>>()
     private functions = new Map<string, StubsonFunction>()
+    private postFunctions = new Map<string, StubsonPostFunction>()
 
     private readonly _config: StubsonConfig
     private readonly _resolver: StubsonResolver
@@ -30,7 +33,9 @@ export default class StubsonContext {
     }
 
     define(id: string, value: any) {
-        if (value instanceof StubsonFunction) {
+        if (value instanceof StubsonPostFunction) {
+            this.postFunctions.set(id, value)
+        } else if (value instanceof StubsonFunction) {
             this.functions.set(id, value)
         } else {
             this.values.set(id, value)
@@ -47,6 +52,12 @@ export default class StubsonContext {
             if (value instanceof StubsonValue) {
                 return this.getInternal(caller, value.identifier, args?.isEmpty() ? value.args : args)
             }
+            return value
+        }
+
+        if (this.postFunctions.has(id)) {
+            let value = new StubsonValue(id, this.postFunctions.get(id))
+            value.args = args
             return value
         }
 
@@ -70,7 +81,8 @@ export default class StubsonContext {
     }
 
     resolve(type: StubsonType<any>) {
-        return this.resolver().resolve(this, type)
+        let json = this.resolver().resolve(this, type)
+        return StubsonPostResolver.instance.resolve(json)
     }
 
     parent() {

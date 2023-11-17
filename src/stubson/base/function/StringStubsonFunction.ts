@@ -9,7 +9,7 @@ export default class StringStubsonFunction extends StubsonFunction {
         let result = ""
         args.forEach(value => {
             if (value instanceof StubsonType) {
-                let json = context.resolve(value)
+                let json = context.resolver().resolve(context, value)
                 if (json instanceof Object) {
                     json = JSON.stringify(json)
                 }

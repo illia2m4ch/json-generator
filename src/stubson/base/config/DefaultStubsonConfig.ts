@@ -13,6 +13,8 @@ import StubsonResolver from "../../core/resolver/StubsonResolver";
 import IteratorStubsonResolver from "../resolver/IteratorStubsonResolver";
 import TimestampStubsonFunction from "../function/TimestampGensorFunction";
 import ColorStubsonFunction from "../function/ColorGensorFunction";
+import ReferenceStubsonPostFunction from "../post/ReferenceStubsonPostFunction";
+import IndexStubsonPostFunction from "../post/IndexStubsonPostFunction";
 
 export default class DefaultStubsonConfig extends StubsonConfig {
 
@@ -29,6 +31,10 @@ export default class DefaultStubsonConfig extends StubsonConfig {
         context.define('bool', new BooleanStubsonFunction())
         context.define('timestamp', new TimestampStubsonFunction())
         context.define('color', new ColorStubsonFunction())
+
+        // post functions
+        context.define('index', new IndexStubsonPostFunction())
+        context.define('ref', new ReferenceStubsonPostFunction())
     }
 
     createResolver(context: StubsonContext) {

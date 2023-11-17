@@ -22,6 +22,9 @@ export default abstract class StubsonResolver {
             return objectContext.resolver().resolveObject(objectContext, type)
         }
         if (type instanceof StubsonValue) {
+            if (type.postFunction) {
+                return type
+            }
             return this.resolveValue(context, type)
         }
         if (type instanceof StubsonRange) {
