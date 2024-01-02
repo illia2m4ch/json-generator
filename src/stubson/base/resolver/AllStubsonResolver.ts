@@ -5,7 +5,7 @@ import {StubsonObject} from "../../core/type/implementation/StubsonObject";
 import StubsonNodeWrapper from "../../core/type/implementation/StubsonNodeWrapper";
 import IteratorStubsonResolver from "./IteratorStubsonResolver";
 
-export default class VariantsStubsonResolver extends IteratorStubsonResolver {
+export default class AllStubsonResolver extends IteratorStubsonResolver {
 
     protected resolveArray(context: StubsonContext, type: StubsonArray<any>) {
         let result = []

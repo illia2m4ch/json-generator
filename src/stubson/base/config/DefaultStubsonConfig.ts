@@ -8,7 +8,7 @@ import nameJson from '../dataset/name.json';
 import StubsonConfig from "../../core/config/StubsonConfig";
 import StubsonString from "../../core/type/implementation/StubsonString";
 import RandomStubsonResolver from "../resolver/RandomStubsonResolver";
-import VariantsStubsonResolver from "../resolver/VariantsStubsonResolver";
+import AllStubsonResolver from "../resolver/AllStubsonResolver";
 import StubsonResolver from "../../core/resolver/StubsonResolver";
 import IteratorStubsonResolver from "../resolver/IteratorStubsonResolver";
 import TimestampStubsonFunction from "../function/TimestampStubsonFunction";
@@ -45,7 +45,7 @@ export default class DefaultStubsonConfig extends StubsonConfig {
 
         switch ((arg as StubsonString).value()) {
             case 'random': return new RandomStubsonResolver()
-            case 'variants': return new VariantsStubsonResolver()
+            case 'all': return new AllStubsonResolver()
             case 'iterator': return new IteratorStubsonResolver()
         }
     }
