@@ -51,7 +51,7 @@ export default class RandomStubsonResolver extends StubsonResolver {
         let object = {}
         type.value().forEach((node, nameNode) => {
             let name = this.resolve(context, nameNode)
-            if (name !== null) {
+            if (name) {
                 let stringName = name instanceof Object ? JSON.stringify(name) : name
                 object[stringName] = this.resolve(context, node)
             }

@@ -64,7 +64,11 @@ export default class IteratorStubsonResolver extends StubsonResolver {
 
             variants.forEach((propertyVariants) => {
                 let variant = propertyVariants[i % propertyVariants.length]
-                object[variant[0]] = variant[1]
+                let name = variant[0]
+
+                if (name) {
+                    object[name] = variant[1]
+                }
             })
 
             result.push(object)
@@ -85,7 +89,7 @@ export default class IteratorStubsonResolver extends StubsonResolver {
 
         let result: [string, any][] = []
         nameVariants.forEach(name => {
-            let stringName = name instanceof Object ? JSON.stringify(name) : name.toString()
+            let stringName = name instanceof Object ? JSON.stringify(name) : name?.toString()
             propertyVariants.forEach(value => {
                 result.push([stringName, value])
             })
