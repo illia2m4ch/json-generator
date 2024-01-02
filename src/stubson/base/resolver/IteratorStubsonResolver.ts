@@ -20,7 +20,7 @@ export default class IteratorStubsonResolver extends StubsonResolver {
                 result.push(item)
             }
         })
-        return result
+        return [...new Set<any>(result)]
     }
 
     protected resolveArray(context: StubsonContext, type: StubsonArray<any>) {
@@ -78,22 +78,30 @@ export default class IteratorStubsonResolver extends StubsonResolver {
     }
 
     protected propertyVariants(context: StubsonContext, name: number | StubsonNode<any>, value: StubsonNode<any>): [string, any][] {
-        let propertyVariants = this.wrapResult(this.resolve(context, value))
+        let valueVariants = this.wrapResult(this.resolve(context, value))
         let nameVariants: any[]
 
+        let hasNullName = false
         if (typeof name === 'number') {
             nameVariants = [name]
         } else if (name instanceof StubsonNode) {
             nameVariants = this.wrapResult(this.resolve(context, name))
+            hasNullName = nameVariants.includes(null)
+            nameVariants = nameVariants.filter(value => value)
         }
 
+        let variantCount = Math.max(nameVariants.length, valueVariants.length)
+
         let result: [string, any][] = []
-        nameVariants.forEach(name => {
-            let stringName = name instanceof Object ? JSON.stringify(name) : name?.toString()
-            propertyVariants.forEach(value => {
-                result.push([stringName, value])
-            })
-        })
+        for (let i = 0; i < variantCount; i++) {
+            let name = nameVariants[i % nameVariants.length]
+            let stringName = name instanceof Object ? JSON.stringify(name) : name?.toString() ?? null
+            let value = valueVariants[i % valueVariants.length]
+            result.push([stringName, value])
+        }
+        if (hasNullName) {
+            result.push([null, null])
+        }
 
         return result
     }
