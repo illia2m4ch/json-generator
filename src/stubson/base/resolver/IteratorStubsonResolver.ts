@@ -48,36 +48,60 @@ export default class IteratorStubsonResolver extends StubsonResolver {
         return [type.value()]
     }
 
-    protected objectVariants(context: StubsonContext, array: [number | StubsonNode<any>, StubsonNode<any>][]) {
-        let result = []
-        let maxVariants = 1
-        let variants: [string, any][][] = array.map(([name, value]) => {
-            let propertyVariants = this.propertyVariants(context, name, value)
-            if (propertyVariants.length > maxVariants) {
-                maxVariants = propertyVariants.length
+    protected nextVariant(indices: number[], sizes: number[]): number[] {
+        let max = 0
+        let indexOfMax = 0
+        for (let i = 0; i < indices.length; i++) {
+            let size = sizes[i]
+            indices[i] = (indices[i] + 1) % size
+            if (size > max) {
+                max = size
+                indexOfMax = i
             }
+        }
+
+        if (indices[indexOfMax] === 0) { // overflow
+            return null // means end
+        }
+
+        return indices
+    }
+
+    private objectVariants(context: StubsonContext, array: [number | StubsonNode<any>, StubsonNode<any>][]) {
+        let variants: [string, any][][] = array.map(([name, value]) => {
             return this.propertyVariants(context, name, value)
         })
 
-        for (let i = 0; i < maxVariants; i++) {
+        return this.resolveObjectVariants(variants)
+    }
+
+    private resolveObjectVariants(variants: [string, any][][]): any[] {
+        let result = []
+        let indices = new Array(variants.length).fill(0);
+        let sizes = variants.map(value => value.length)
+
+        while (indices) {
             let object = {}
 
-            variants.forEach((propertyVariants) => {
-                let variant = propertyVariants[i % propertyVariants.length]
+            for (let i = 0; i < variants.length; i++) {
+                let variantIndex = indices[i]
+                let variant = variants[i][variantIndex]
                 let name = variant[0]
 
                 if (name) {
                     object[name] = variant[1]
                 }
-            })
+            }
 
             result.push(object)
+
+            indices = this.nextVariant(indices, sizes)
         }
 
         return result
     }
 
-    protected propertyVariants(context: StubsonContext, name: number | StubsonNode<any>, value: StubsonNode<any>): [string, any][] {
+    private propertyVariants(context: StubsonContext, name: number | StubsonNode<any>, value: StubsonNode<any>): [string, any][] {
         let valueVariants = this.wrapResult(this.resolve(context, value))
         let nameVariants: any[]
 
@@ -90,15 +114,21 @@ export default class IteratorStubsonResolver extends StubsonResolver {
             nameVariants = nameVariants.filter(value => value)
         }
 
-        let variantCount = Math.max(nameVariants.length, valueVariants.length)
-
         let result: [string, any][] = []
-        for (let i = 0; i < variantCount; i++) {
-            let name = nameVariants[i % nameVariants.length]
+        let indices = new Array(2).fill(0); // [name, value] indices
+        let sizes = [nameVariants.length, valueVariants.length]
+
+        while (indices) {
+            let [nameIndex, valueIndex] = indices
+
+            let name = nameVariants[nameIndex]
             let stringName = name instanceof Object ? JSON.stringify(name) : name?.toString() ?? null
-            let value = valueVariants[i % valueVariants.length]
+            let value = valueVariants[valueIndex]
             result.push([stringName, value])
+
+            indices = this.nextVariant(indices, sizes)
         }
+
         if (hasNullName) {
             result.push([null, null])
         }
@@ -106,7 +136,7 @@ export default class IteratorStubsonResolver extends StubsonResolver {
         return result
     }
 
-    protected wrapResult(value: any): any[] {
+    private wrapResult(value: any): any[] {
         if (value instanceof Array) {
             return value
         }
