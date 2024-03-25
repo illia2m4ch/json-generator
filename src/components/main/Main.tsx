@@ -2,6 +2,10 @@ import React, {useEffect, useState} from "react"
 import './Main.css'
 import StubsonEditor from "../stubsoneditor/StubsonEditor"
 import JsonPreview from "../jsonpreview/JsonPreview"
+import PlayIcon from "../icon/play/PlayIcon";
+import IconButton from "../button/icon/IconButton";
+import ExportIcon from "../icon/play/ExportIcon";
+import CopyIcon from "../icon/play/CopyIcon";
 
 function Main() {
     const [value, setValue] = useState("")
@@ -10,10 +14,45 @@ function Main() {
     //     initDivider()
     // });
 
-    return <div className={"main-container"}>
-        <StubsonEditor className={"main-item"} onValueChange={setValue}/>
-        {/*<div className={"main-divider"}/>*/}
-        <JsonPreview className={"main-item"} value={value}/>
+    return <div className={"page-container"}>
+        <header className={"header-container"}>
+            <div className={"header-logo"}><p><b>Stubson</b></p></div>
+            <nav className={"menu-container"}>
+                <a className={"menu-item menu-item-active"}>Generator</a>
+                <a className={"menu-item"}>Docs</a>
+            </nav>
+        </header>
+        <div className={"main-container"}>
+            <div className={"tab-container"}>
+                <div className={"tab-header-container"}>
+                    <p style={{marginLeft: 16}}>schema</p>
+                    <div style={{flex: 1}}/>
+                    {/*<IconButton style={{marginRight: 4}} onClick={run}>*/}
+                    {/*    <PlayIcon/>*/}
+                    {/*</IconButton>*/}
+                </div>
+                <div className={"tab-content-container"}>
+                    <StubsonEditor className={"tab-container"} onValueChange={setValue}/>
+                </div>
+            </div>
+            <div className={"tab-container"}>
+                <div className={"tab-header-container"}>
+                    <p style={{marginLeft: 16}}>output</p>
+                    <div style={{flex: 1}}/>
+                    {/*<IconButton style={{marginRight: 4}}>*/}
+                    {/*    <CopyIcon/>*/}
+                    {/*</IconButton>*/}
+                    {/*<IconButton style={{marginRight: 4}}>*/}
+                    {/*    <ExportIcon/>*/}
+                    {/*</IconButton>*/}
+                </div>
+                <div className={"tab-content-container"}>
+                    <JsonPreview className={"tab-container"} value={value}/>
+                </div>
+            </div>
+
+            {/*<div className={"main-divider"}/>*/}
+        </div>
     </div>
 }
 

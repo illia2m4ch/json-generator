@@ -14,11 +14,15 @@ function StubsonEditor(
             height='100vh'
             theme='stubsonTheme'
             options={{
+                overviewRulerLanes: 0,
+                scrollbar: {
+                    vertical: 'hidden'
+                },
                 minimap: { enabled: false }
             }}
             defaultLanguage='stubson'
             defaultValue={
-                `{
+`{
     "items": [
         {
             "name": <name(lang = en), null, {}, 0..100> (optional),

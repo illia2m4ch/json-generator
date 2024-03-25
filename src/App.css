@@ -1,6 +1,11 @@
 :root {
-  --bg-color: #222222;
+  --accent-color: #5FBB97;
+  --bg-color: #252525;
+  --surface-bg-color: #1e1e1e;
   --text-color: #ffffff;
+  --text-color-secondary: #999999;
+
+  --divider-size: 1px;
 }
 
 body {
@@ -10,4 +15,10 @@ body {
 
 * {
   margin: 0
+}
+
+.icon {
+  color: var(--accent-color);
+  width: 24px;
+  height: 24px;
 }
